@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WMainMenu.h"
+//#include "WMainMenu.h"
 
 namespace MoviesDB {
 	using namespace System;
@@ -282,7 +282,7 @@ private: System::Void MovDelBtn_Click(System::Object^ sender, System::EventArgs^
 }
 private: System::Void MovSaveBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day);
-	Movie^ tmp = gcnew Movie(MovNamePrevTB->Text, MovPosterPathPrevTB->Text, MovGenreCB->SelectedText, MovAnnPrevTB->Text, tmpDate, (int) MovRatingPrevNum->Value);
+	//Movie^ tmp = gcnew Movie(MovNamePrevTB->Text, MovPosterPathPrevTB->Text, MovGenreCB->SelectedText, MovAnnPrevTB->Text, tmpDate, (int) MovRatingPrevNum->Value);
 	// WMainMenu::currentList->AddMovie(tmp);
 	MessageBox::Show("Изменения сохранены");
 }

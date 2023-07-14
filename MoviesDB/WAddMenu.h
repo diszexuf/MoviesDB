@@ -273,7 +273,7 @@ private: System::Void AddMovButton_Click(System::Object^ sender, System::EventAr
 	tmpPosterPath = MovPosterPathTB->Text;
 	tmpAnnotation = MovAnnTB->Text;
 	tmpRating = (int) MovRatingNum->Value;
-	tmpDate = DateTime(MovDatePicker->Value.Year, MovDatePicker->Value.Month, MovDatePicker->Value.Day);
+	tmpDate = System::DateTime(MovDatePicker->Value.Year, MovDatePicker->Value.Month, MovDatePicker->Value.Day);
 	Movie^ mov = gcnew Movie(tmpTitle, tmpPosterPath, tmpGenre, tmpAnnotation, tmpDate, tmpRating);
 	//WMainMenu::currentList->AddMovie(mov);
 	MessageBox::Show("Фильм добавлен");

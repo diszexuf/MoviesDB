@@ -5,7 +5,7 @@
 #include "WAddMenu.h"
 #include "WGreeting.h"
 
-using namespace System;
+//using namespace System;
 
 namespace MoviesDB {
 
@@ -362,9 +362,8 @@ private: System::Void SaveBDBtn_Click(System::Object^ sender, System::EventArgs^
 	}
 }
 private: System::Void MovieList_MouseDoubleClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-	
-	WEditMenu^ wedit = gcnew WEditMenu;
-	wedit->ShowDialog();
+	WEditMenu^ EditMenu = gcnew WEditMenu;
+	EditMenu->ShowDialog();
 }
 
 private: System::Void FindMovBtn_Click(System::Object^ sender, System::EventArgs^ e) {

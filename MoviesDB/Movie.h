@@ -1,16 +1,16 @@
 #pragma once
-using namespace System;
 
 ref class Movie {
 public:
-	String^ Title;
-	String^ PosterPath;
-	String^ Genre;
-	String^ Annotation;
-	DateTime RealeaseDate;
+	System::String^ Title;
+	System::String^ PosterPath;
+	System::String^ Genre;
+	System::String^ Annotation;
+	System::DateTime RealeaseDate;
 	int Rating;
 	Movie ^Next;
-	Movie(String^ title, String^ posterpath, String^ genre, String^ annotation, DateTime realesadate, int rating)
+	Movie(System::String^ title, System::String^ posterpath, System::String^ genre, 
+		System::String^ annotation, System::DateTime realesadate, int rating)
 	{
 		this->Title = title;
 		this->Genre = genre;
