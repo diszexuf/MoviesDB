@@ -23,7 +23,6 @@ namespace MoviesDB {
 	public ref class WMainMenu : public System::Windows::Forms::Form
 	{
 	public:
-		static MovieLinkedList^ currentList = gcnew MovieLinkedList();
 		WMainMenu(void)
 		{
 			InitializeComponent();
@@ -63,7 +62,7 @@ namespace MoviesDB {
 		System::Windows::Forms::Label^ SearchParamsLbl;
 		System::Windows::Forms::Button^ ReadBDBtn;
 		System::Windows::Forms::Button^ SaveBDBtn;
-		System::Windows::Forms::VScrollBar^ vScrollBar;
+
 		System::Windows::Forms::TextBox^ MovNameTB;
 		System::Windows::Forms::Label^ BDActionsLbl;
 		System::Windows::Forms::Panel^ panel1;
@@ -73,6 +72,13 @@ namespace MoviesDB {
 		System::Windows::Forms::NumericUpDown^ MovRatingNumFrom;
 		System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 		System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
+
+	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::ComboBox^ comboBox1;
+	private: System::Windows::Forms::DateTimePicker^ dateTimePicker1;
+	private: System::Windows::Forms::TextBox^ textBox2;
+	private: System::Windows::Forms::NumericUpDown^ numericUpDown1;
+	private: System::Windows::Forms::TextBox^ textBox1;
 
 
 	private:
@@ -98,7 +104,6 @@ namespace MoviesDB {
 			this->SearchParamsLbl = (gcnew System::Windows::Forms::Label());
 			this->ReadBDBtn = (gcnew System::Windows::Forms::Button());
 			this->SaveBDBtn = (gcnew System::Windows::Forms::Button());
-			this->vScrollBar = (gcnew System::Windows::Forms::VScrollBar());
 			this->MovNameTB = (gcnew System::Windows::Forms::TextBox());
 			this->BDActionsLbl = (gcnew System::Windows::Forms::Label());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
@@ -108,9 +113,17 @@ namespace MoviesDB {
 			this->MovAddBtn = (gcnew System::Windows::Forms::Button());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
+			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumTo))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumFrom))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// MovieList
@@ -118,7 +131,7 @@ namespace MoviesDB {
 			this->MovieList->FormattingEnabled = true;
 			this->MovieList->Location = System::Drawing::Point(232, 14);
 			this->MovieList->Name = L"MovieList";
-			this->MovieList->Size = System::Drawing::Size(443, 459);
+			this->MovieList->Size = System::Drawing::Size(128, 459);
 			this->MovieList->TabIndex = 13;
 			this->MovieList->MouseDoubleClick += gcnew System::Windows::Forms::MouseEventHandler(this, &WMainMenu::MovieList_MouseDoubleClick);
 			// 
@@ -215,13 +228,6 @@ namespace MoviesDB {
 			this->SaveBDBtn->UseVisualStyleBackColor = true;
 			this->SaveBDBtn->Click += gcnew System::EventHandler(this, &WMainMenu::SaveBDBtn_Click);
 			// 
-			// vScrollBar
-			// 
-			this->vScrollBar->Location = System::Drawing::Point(678, 14);
-			this->vScrollBar->Name = L"vScrollBar";
-			this->vScrollBar->Size = System::Drawing::Size(17, 459);
-			this->vScrollBar->TabIndex = 15;
-			// 
 			// MovNameTB
 			// 
 			this->MovNameTB->Location = System::Drawing::Point(105, 52);
@@ -304,15 +310,73 @@ namespace MoviesDB {
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->BackColor = System::Drawing::SystemColors::ControlDark;
+			this->pictureBox1->Location = System::Drawing::Point(689, 13);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(199, 248);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox1->TabIndex = 70;
+			this->pictureBox1->TabStop = false;
+			// 
+			// comboBox1
+			// 
+			this->comboBox1->FormattingEnabled = true;
+			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(10) {
+				L"Боевик", L"Детектив", L"Драма", L"Исторический",
+					L"Комедия", L"Мелодрама", L"Приключение", L"Трагедия", L"Триллер", L"Документальный"
+			});
+			this->comboBox1->Location = System::Drawing::Point(689, 319);
+			this->comboBox1->Name = L"comboBox1";
+			this->comboBox1->Size = System::Drawing::Size(199, 21);
+			this->comboBox1->TabIndex = 69;
+			this->comboBox1->Text = L"Выберите жанр";
+			// 
+			// dateTimePicker1
+			// 
+			this->dateTimePicker1->Location = System::Drawing::Point(689, 374);
+			this->dateTimePicker1->Name = L"dateTimePicker1";
+			this->dateTimePicker1->Size = System::Drawing::Size(199, 20);
+			this->dateTimePicker1->TabIndex = 68;
+			// 
+			// textBox2
+			// 
+			this->textBox2->Location = System::Drawing::Point(366, 13);
+			this->textBox2->Multiline = true;
+			this->textBox2->Name = L"textBox2";
+			this->textBox2->Size = System::Drawing::Size(314, 461);
+			this->textBox2->TabIndex = 67;
+			// 
+			// numericUpDown1
+			// 
+			this->numericUpDown1->Location = System::Drawing::Point(689, 346);
+			this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->numericUpDown1->Name = L"numericUpDown1";
+			this->numericUpDown1->Size = System::Drawing::Size(199, 20);
+			this->numericUpDown1->TabIndex = 66;
+			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(689, 286);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(199, 20);
+			this->textBox1->TabIndex = 65;
+			// 
 			// WMainMenu
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Control;
-			this->ClientSize = System::Drawing::Size(704, 483);
+			this->ClientSize = System::Drawing::Size(898, 483);
+			this->Controls->Add(this->pictureBox1);
+			this->Controls->Add(this->comboBox1);
+			this->Controls->Add(this->dateTimePicker1);
+			this->Controls->Add(this->textBox2);
+			this->Controls->Add(this->numericUpDown1);
+			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->BDActionsLbl);
-			this->Controls->Add(this->vScrollBar);
 			this->Controls->Add(this->MovieList);
 			this->Controls->Add(this->MovAddBtn);
 			this->Controls->Add(this->SaveBDBtn);
@@ -324,6 +388,8 @@ namespace MoviesDB {
 			this->panel1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumTo))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumFrom))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -396,13 +462,13 @@ private: System::Void FindMovBtn_Click(System::Object^ sender, System::EventArgs
 
 	List<Movie^>^ FoundMovies;
 	if (MovNameTB->Text->Length != 0) {
-		FoundMovies = currentList->Find(MovNameTB->Text);
+		FoundMovies = moviesList->Find(MovNameTB->Text);
 	}
-	else if (MovGenreCB->SelectedIndex != -1) {
-		FoundMovies = currentList->FindbyGenre(MovGenreCB->SelectedText);
+	else if (MovGenreCB->SelectedIndex != -1 && MovGenreCB->SelectedIndex != 0) {
+		FoundMovies = moviesList->FindbyGenre(MovGenreCB->SelectedText);
 	}
 	else {
-		FoundMovies = currentList->Find((int)MovRatingNumFrom->Value, (int)MovRatingNumTo->Value);
+		FoundMovies = moviesList->Find((int)MovRatingNumFrom->Value, (int)MovRatingNumTo->Value);
 	}
 
 	for (int i = 0; i < FoundMovies->Count; i++) {
@@ -492,6 +558,7 @@ private: System::Void MovRatingNum_ValueChanged(System::Object^ sender, System::
 private: System::Void MovAddBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	WAddMenu^ AddMenu = gcnew WAddMenu;
 	AddMenu->ShowDialog();
+	moviesList->AddMovie(WAddMenu::mov);
 }
 };
 }
