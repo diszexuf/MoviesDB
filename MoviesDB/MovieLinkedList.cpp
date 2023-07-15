@@ -196,3 +196,15 @@ List<Movie^>^ MovieLinkedList::FindbyGenre(String^ genre) // Поиск по дате выход
 	}
 	return lst;
 }
+
+List<Movie^>^ MovieLinkedList::GetMovies() {
+	List<Movie^>^ result = gcnew List<Movie^>();
+	Movie^ cur = head;
+
+	while (cur != nullptr)
+	{
+		result->Add(cur);
+		cur = cur->Next;
+	}
+	return result;
+}

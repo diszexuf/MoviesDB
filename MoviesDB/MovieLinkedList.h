@@ -25,5 +25,6 @@ public:
 	List<Movie^>^ Find(System::String^ title);
 	List<Movie^>^ Find(int raitingFrom, int raitingTo); 
 	List<Movie^>^ FindbyGenre(System::String^ genre);
+	List<Movie^>^ GetMovies();
 };
 

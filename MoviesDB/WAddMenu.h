@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WMainMenu.h"
+#include "Movie.h"
 
 namespace MoviesDB {
 

@@ -10,6 +10,7 @@
 namespace MoviesDB {
 
 	using namespace System;
+	using namespace System::Collections::Generic;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
@@ -42,6 +43,13 @@ namespace MoviesDB {
 				delete components;
 			}
 		}
+
+	private: System::String^ filePath = "";
+	public: MovieLinkedList^ moviesList = gcnew MovieLinkedList();
+	public: List<Movie^>^ moviesListBox = gcnew List<Movie^>;
+	private: Movie^ test1 = gcnew Movie("Test", "F:\\torrents", "Боевик", "аннтоация какой-то текст", DateTime(2003, 12, 23), 8);
+	private: Movie^ test2 = gcnew Movie("Testik", "F:\\torrents\\23asda", "Драма", "аннтоация какой-то текст", DateTime(2001, 11, 12), 10);
+
 	private: 
 		System::Windows::Forms::ListBox^ MovieList;
 		System::Windows::Forms::SaveFileDialog^ saveBase;
@@ -116,6 +124,7 @@ namespace MoviesDB {
 			// 
 			// FindMovBtn
 			// 
+			this->FindMovBtn->Enabled = false;
 			this->FindMovBtn->Location = System::Drawing::Point(6, 197);
 			this->FindMovBtn->Name = L"FindMovBtn";
 			this->FindMovBtn->Size = System::Drawing::Size(209, 39);
@@ -271,8 +280,8 @@ namespace MoviesDB {
 			// MovGenreCB
 			// 
 			this->MovGenreCB->FormattingEnabled = true;
-			this->MovGenreCB->Items->AddRange(gcnew cli::array< System::Object^  >(10) {
-				L"Боевик", L"Детектив", L"Драма", L"Исторический",
+			this->MovGenreCB->Items->AddRange(gcnew cli::array< System::Object^  >(11) {
+				L"", L"Боевик", L"Детектив", L"Драма", L"Исторический",
 					L"Комедия", L"Мелодрама", L"Приключение", L"Трагедия", L"Триллер", L"Документальный"
 			});
 			this->MovGenreCB->Location = System::Drawing::Point(105, 84);
@@ -289,6 +298,7 @@ namespace MoviesDB {
 			this->MovAddBtn->TabIndex = 10;
 			this->MovAddBtn->Text = L"Добавить фильм в базу";
 			this->MovAddBtn->UseVisualStyleBackColor = true;
+			this->MovAddBtn->Click += gcnew System::EventHandler(this, &WMainMenu::MovAddBtn_Click);
 			// 
 			// openFileDialog1
 			// 
@@ -323,6 +333,9 @@ namespace MoviesDB {
 private: System::Void WMainMenu_Load(System::Object^ sender, System::EventArgs^ e) {
 	WGreeting^ Greeting = gcnew WGreeting;
 	Greeting->ShowDialog();
+	moviesList->AddMovie(test1);
+	moviesList->AddMovie(test2);
+
 }
 
 private: System::Void MovGenreCB_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -341,15 +354,39 @@ private: System::Void MovGenreCB_SelectedIndexChanged(System::Object^ sender, Sy
 	else {
 		FindMovBtn->Enabled = true;
 	}
+
+	// выкл остальных полей
+	if (MovGenreCB->SelectedIndex != -1) {
+		MovNameTB->Enabled = false;
+		MovGenreCB->Enabled = true;
+		MovRatingNumFrom->Enabled = false;
+		MovRatingNumTo->Enabled = false;
+	}
+	else
+	{
+		MovNameTB->Enabled = true;
+		MovGenreCB->Enabled = true;
+		MovRatingNumFrom->Enabled = true;
+		MovRatingNumTo->Enabled = true;
+	}
 }
 
 private: System::Void ReadBDBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (openBase->ShowDialog() == System::Windows::Forms::DialogResult::Cancel) return;
-	if (!currentList->ReadBase(openBase->FileName))
+	OpenFileDialog^ folderDialog = gcnew OpenFileDialog();
+	folderDialog->Filter = "CSV File (.csv)|*.csv";
+
+	if (folderDialog->ShowDialog() == System::Windows::Forms::DialogResult::Cancel)
 	{
-		MessageBox::Show("Ошибка при чтении файла.");
 		return;
 	}
+
+	filePath = folderDialog->FileName;
+
+	bool isReaded = moviesList->ReadBase(filePath); // Считываем информацию с базы в односвязный список
+	if (!isReaded)
+		MessageBox::Show("Не удалось открыть файл!");
+
+	moviesListBox = moviesList->GetMovies(); // Добавляем в обычный список элементы на вывод в listBox
 }
 
 private: System::Void SaveBDBtn_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -367,10 +404,11 @@ private: System::Void MovieList_MouseDoubleClick(System::Object^ sender, System:
 }
 
 private: System::Void FindMovBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (MovNameTB->Text->Length == 0 && MovGenreCB->SelectedIndex == -1 && MovRatingNumFrom->Value == 0 && MovRatingNumTo->Value == 10) {
-		MessageBox::Show("Введите критерий(-ии) поиска");
-		return;
-	}
+	MovNameTB->Enabled = true;
+	MovGenreCB->Enabled = true;
+	MovRatingNumFrom->Enabled = true;
+	MovRatingNumTo->Enabled = true;
+
 	List<Movie^>^ FoundMovies;
 	if (MovNameTB->Text->Length != 0) {
 		FoundMovies = currentList->Find(MovNameTB->Text);
@@ -410,8 +448,7 @@ private: System::Void MovNameTB_TextChanged(System::Object^ sender, System::Even
 		MovGenreCB->Enabled = true;
 		MovRatingNumFrom->Enabled = true;
 		MovRatingNumTo->Enabled = true;
-	}
-	
+	}	
 }
 
 private: System::Void MovRatingNumFrom_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -423,6 +460,20 @@ private: System::Void MovRatingNumFrom_ValueChanged(System::Object^ sender, Syst
 	{
 		FindMovBtn->Enabled = true;
 	}
+
+	// выкл остальных полей
+	if (MovRatingNumFrom->Value != 0) {
+		MovNameTB->Enabled = false;
+		MovGenreCB->Enabled = false;
+		MovRatingNumFrom->Enabled = true;
+		MovRatingNumTo->Enabled = true;
+	}
+	else
+	{
+		MovGenreCB->Enabled = true;
+		MovRatingNumFrom->Enabled = true;
+		MovRatingNumTo->Enabled = true;
+	}
 }
 private: System::Void MovRatingNumTo_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 	// вкл\выкл кнопки поиска
@@ -433,7 +484,25 @@ private: System::Void MovRatingNumTo_ValueChanged(System::Object^ sender, System
 	{
 		FindMovBtn->Enabled = true;
 	}
+
+	// выкл остальных полей
+	if (MovRatingNumFrom->Value != 10) {
+		MovNameTB->Enabled = false;
+		MovGenreCB->Enabled = false;
+		MovRatingNumFrom->Enabled = true;
+		MovRatingNumTo->Enabled = true;
+	}
+	else
+	{
+		MovGenreCB->Enabled = true;
+		MovRatingNumFrom->Enabled = true;
+		MovRatingNumTo->Enabled = true;
+	}
 }
 
+private: System::Void MovAddBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	WAddMenu^ AddMenu = gcnew WAddMenu;
+	AddMenu->ShowDialog();
+}
 };
 }
