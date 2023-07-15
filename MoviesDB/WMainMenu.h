@@ -266,7 +266,7 @@ namespace MoviesDB {
 			this->MovRatingNumTo->Size = System::Drawing::Size(44, 20);
 			this->MovRatingNumTo->TabIndex = 18;
 			this->MovRatingNumTo->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
-			this->MovRatingNumTo->ValueChanged += gcnew System::EventHandler(this, &WMainMenu::MovRatingNumTo_ValueChanged);
+			this->MovRatingNumTo->ValueChanged += gcnew System::EventHandler(this, &WMainMenu::MovRatingNum_ValueChanged);
 			// 
 			// MovRatingNumFrom
 			// 
@@ -275,7 +275,7 @@ namespace MoviesDB {
 			this->MovRatingNumFrom->Name = L"MovRatingNumFrom";
 			this->MovRatingNumFrom->Size = System::Drawing::Size(44, 20);
 			this->MovRatingNumFrom->TabIndex = 18;
-			this->MovRatingNumFrom->ValueChanged += gcnew System::EventHandler(this, &WMainMenu::MovRatingNumFrom_ValueChanged);
+			this->MovRatingNumFrom->ValueChanged += gcnew System::EventHandler(this, &WMainMenu::MovRatingNum_ValueChanged);
 			// 
 			// MovGenreCB
 			// 
@@ -335,40 +335,9 @@ private: System::Void WMainMenu_Load(System::Object^ sender, System::EventArgs^ 
 	Greeting->ShowDialog();
 	moviesList->AddMovie(test1);
 	moviesList->AddMovie(test2);
+	MovieList->Items->Add(test1);
+	MovieList->Items->Add(test2);
 
-}
-
-private: System::Void MovGenreCB_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-	// вкл\выкл кнопки поиска
-	if (MovNameTB->Text->Length == 0 && MovGenreCB->SelectedIndex == -1 && (int)MovRatingNumFrom->Value == 0 && (int)MovRatingNumTo->Value == 10) {
-		FindMovBtn->Enabled = false;
-	}
-	else
-	{
-		FindMovBtn->Enabled = true;
-	}
-	
-	if (MovNameTB->Text->Length == 0 && MovGenreCB->SelectedIndex == -1) {
-		FindMovBtn->Enabled = false;
-	}
-	else {
-		FindMovBtn->Enabled = true;
-	}
-
-	// выкл остальных полей
-	if (MovGenreCB->SelectedIndex != -1) {
-		MovNameTB->Enabled = false;
-		MovGenreCB->Enabled = true;
-		MovRatingNumFrom->Enabled = false;
-		MovRatingNumTo->Enabled = false;
-	}
-	else
-	{
-		MovNameTB->Enabled = true;
-		MovGenreCB->Enabled = true;
-		MovRatingNumFrom->Enabled = true;
-		MovRatingNumTo->Enabled = true;
-	}
 }
 
 private: System::Void ReadBDBtn_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -387,17 +356,31 @@ private: System::Void ReadBDBtn_Click(System::Object^ sender, System::EventArgs^
 		MessageBox::Show("Не удалось открыть файл!");
 
 	moviesListBox = moviesList->GetMovies(); // Добавляем в обычный список элементы на вывод в listBox
+	for each (Movie^ m in moviesListBox)
+	{
+		MovieList->Items->Add(m);
+	}
+	MovieList->Update();
 }
 
 private: System::Void SaveBDBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (saveBase->ShowDialog() == System::Windows::Forms::DialogResult::Cancel) return;
+	SaveFileDialog^ saveFile = gcnew SaveFileDialog();
+	saveFile->Filter = "CSV File (.csv)|*.csv";
 
-	if (!currentList->SaveBase(saveBase->FileName))
+	if (saveFile->ShowDialog() == System::Windows::Forms::DialogResult::Cancel)
 	{
-		MessageBox::Show("Ошибка при сохранении файла."); 
 		return;
 	}
+	filePath = saveFile->FileName;
+
+	bool SaveStatement = moviesList->SaveBase(filePath);
+
+	if (!SaveStatement)
+	{
+		MessageBox::Show("Не удалось сохранить файл");
+	}
 }
+
 private: System::Void MovieList_MouseDoubleClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 	WEditMenu^ EditMenu = gcnew WEditMenu;
 	EditMenu->ShowDialog();
@@ -408,6 +391,8 @@ private: System::Void FindMovBtn_Click(System::Object^ sender, System::EventArgs
 	MovGenreCB->Enabled = true;
 	MovRatingNumFrom->Enabled = true;
 	MovRatingNumTo->Enabled = true;
+
+
 
 	List<Movie^>^ FoundMovies;
 	if (MovNameTB->Text->Length != 0) {
@@ -426,10 +411,9 @@ private: System::Void FindMovBtn_Click(System::Object^ sender, System::EventArgs
 	MovieList->Update();
 }
 
-
 private: System::Void MovNameTB_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	// вкл\выкл кнопки поиска
-	if (MovNameTB->Text->Length == 0 && MovGenreCB->SelectedIndex == -1 && (int) MovRatingNumFrom->Value == 0 && (int) MovRatingNumTo->Value == 10) {
+	if (MovNameTB->Text->Length == 0 && (MovGenreCB->SelectedIndex != -1 || MovGenreCB->SelectedIndex != 0) && (int) MovRatingNumFrom->Value == 0 && (int) MovRatingNumTo->Value == 10) {
 		FindMovBtn->Enabled = false;
 	}
 	else
@@ -439,21 +423,23 @@ private: System::Void MovNameTB_TextChanged(System::Object^ sender, System::Even
 	
 	// выкл остальных полей
 	if (MovNameTB->Text->Length != 0) {
+		MovNameTB->Enabled = true;
 		MovGenreCB->Enabled = false;
 		MovRatingNumFrom->Enabled = false;
 		MovRatingNumTo->Enabled = false;
 	}
 	else
 	{
+		MovNameTB->Enabled = true;
 		MovGenreCB->Enabled = true;
 		MovRatingNumFrom->Enabled = true;
 		MovRatingNumTo->Enabled = true;
 	}	
 }
 
-private: System::Void MovRatingNumFrom_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+private: System::Void MovGenreCB_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
 	// вкл\выкл кнопки поиска
-	if (MovNameTB->Text->Length == 0 && MovGenreCB->SelectedIndex == -1 && (int)MovRatingNumFrom->Value == 0 && (int)MovRatingNumTo->Value == 10) {
+	if (MovNameTB->Text->Length == 0 && ((int) MovGenreCB->SelectedIndex == -1 || (int) MovGenreCB->SelectedIndex == 0) && (int)MovRatingNumFrom->Value == 0 && (int)MovRatingNumTo->Value == 10) {
 		FindMovBtn->Enabled = false;
 	}
 	else
@@ -462,22 +448,24 @@ private: System::Void MovRatingNumFrom_ValueChanged(System::Object^ sender, Syst
 	}
 
 	// выкл остальных полей
-	if (MovRatingNumFrom->Value != 0) {
+	if ((int)MovGenreCB->SelectedIndex > 0) {
 		MovNameTB->Enabled = false;
-		MovGenreCB->Enabled = false;
-		MovRatingNumFrom->Enabled = true;
-		MovRatingNumTo->Enabled = true;
+		MovGenreCB->Enabled = true;
+		MovRatingNumFrom->Enabled = false;
+		MovRatingNumTo->Enabled = false;
 	}
 	else
 	{
+		MovNameTB->Enabled = true;
 		MovGenreCB->Enabled = true;
 		MovRatingNumFrom->Enabled = true;
 		MovRatingNumTo->Enabled = true;
 	}
 }
-private: System::Void MovRatingNumTo_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+
+private: System::Void MovRatingNum_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 	// вкл\выкл кнопки поиска
-	if (MovNameTB->Text->Length == 0 && MovGenreCB->SelectedIndex == -1 && (int)MovRatingNumFrom->Value == 0 && (int)MovRatingNumTo->Value == 10) {
+	if (MovNameTB->Text->Length == 0 && (MovGenreCB->SelectedIndex != -1 || MovGenreCB->SelectedIndex != 0) && (int)MovRatingNumFrom->Value == 0 && (int)MovRatingNumTo->Value == 10) {
 		FindMovBtn->Enabled = false;
 	}
 	else
@@ -486,7 +474,7 @@ private: System::Void MovRatingNumTo_ValueChanged(System::Object^ sender, System
 	}
 
 	// выкл остальных полей
-	if (MovRatingNumFrom->Value != 10) {
+	if ((int) MovRatingNumFrom->Value != 0 || (int)MovRatingNumTo->Value != 10) {
 		MovNameTB->Enabled = false;
 		MovGenreCB->Enabled = false;
 		MovRatingNumFrom->Enabled = true;
@@ -494,6 +482,7 @@ private: System::Void MovRatingNumTo_ValueChanged(System::Object^ sender, System
 	}
 	else
 	{
+		MovNameTB->Enabled = true;
 		MovGenreCB->Enabled = true;
 		MovRatingNumFrom->Enabled = true;
 		MovRatingNumTo->Enabled = true;

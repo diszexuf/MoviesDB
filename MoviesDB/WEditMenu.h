@@ -34,8 +34,8 @@ namespace MoviesDB {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Splitter^ splitter1;
-	private: System::Windows::Forms::Splitter^ ParamsSplitter;
+
+
 	private: System::Windows::Forms::Label^ MovRatingLbl;
 	private: System::Windows::Forms::Label^ MovPosterPathLbl;
 	private: System::Windows::Forms::Label^ MovGenreLbl;
@@ -65,8 +65,6 @@ namespace MoviesDB {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->splitter1 = (gcnew System::Windows::Forms::Splitter());
-			this->ParamsSplitter = (gcnew System::Windows::Forms::Splitter());
 			this->MovRatingLbl = (gcnew System::Windows::Forms::Label());
 			this->MovPosterPathLbl = (gcnew System::Windows::Forms::Label());
 			this->MovGenreLbl = (gcnew System::Windows::Forms::Label());
@@ -84,22 +82,6 @@ namespace MoviesDB {
 			this->MovGenreCB = (gcnew System::Windows::Forms::ComboBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingPrevNum))->BeginInit();
 			this->SuspendLayout();
-			// 
-			// splitter1
-			// 
-			this->splitter1->Location = System::Drawing::Point(0, 0);
-			this->splitter1->Name = L"splitter1";
-			this->splitter1->Size = System::Drawing::Size(3, 498);
-			this->splitter1->TabIndex = 38;
-			this->splitter1->TabStop = false;
-			// 
-			// ParamsSplitter
-			// 
-			this->ParamsSplitter->Location = System::Drawing::Point(3, 0);
-			this->ParamsSplitter->Name = L"ParamsSplitter";
-			this->ParamsSplitter->Size = System::Drawing::Size(149, 498);
-			this->ParamsSplitter->TabIndex = 39;
-			this->ParamsSplitter->TabStop = false;
 			// 
 			// MovRatingLbl
 			// 
@@ -262,8 +244,6 @@ namespace MoviesDB {
 			this->Controls->Add(this->MovPosterPathLbl);
 			this->Controls->Add(this->MovGenreLbl);
 			this->Controls->Add(this->MovNameLbl);
-			this->Controls->Add(this->ParamsSplitter);
-			this->Controls->Add(this->splitter1);
 			this->Name = L"WEditMenu";
 			this->Load += gcnew System::EventHandler(this, &WEditMenu::WEditMenu_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingPrevNum))->EndInit();
