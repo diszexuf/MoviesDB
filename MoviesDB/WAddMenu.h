@@ -47,7 +47,6 @@ namespace MoviesDB {
 				delete components;
 			}
 		}
-	private: System::String^ MovPosterPath;
 	public: static Movie^ mov;
 
 	private: System::Windows::Forms::NumericUpDown^ MovRatingNum;
@@ -274,7 +273,14 @@ namespace MoviesDB {
 		tmpTitle = MovNameTB->Text;
 		tmpGenre = (System::String^) MovGenreCB->Items[MovGenreCB->SelectedIndex];
 		tmpAnnotation = MovAnnTB->Text;
-		tmpRating = (int)MovRatingNum->Value;
+		if (MovRatingNum->Enabled == true) {
+			tmpRating = (int)MovRatingNum->Value;
+		}
+		else
+		{
+			tmpRating = 0; 
+		}
+		
 		tmpDate = System::DateTime(MovDatePicker->Value.Year, MovDatePicker->Value.Month, MovDatePicker->Value.Day);
 		mov = gcnew Movie(tmpTitle, tmpPosterPath, tmpGenre, tmpAnnotation, tmpDate, tmpRating);
 		MessageBox::Show("Фильм добавлен");
@@ -294,7 +300,7 @@ namespace MoviesDB {
 		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
 		PosterPathDialog->Filter = "image files (*.png)|*.png";
 		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-			MovPosterPath = PosterPathDialog->FileName;
+			tmpPosterPath = PosterPathDialog->FileName;
 			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName);
 			MovPoster->Image = imageFile;
 		}
