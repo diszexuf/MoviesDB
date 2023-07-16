@@ -19,7 +19,7 @@ namespace MoviesDB {
 	public:
 		String^ tmpTitle;
 		String^ tmpGenre;
-		String^ tmpPosterPath;
+		String^ tmpPosterPath = "F:\\pngs\\default.png";
 		String^ tmpAnnotation;
 		int tmpRating;
 	private: System::Windows::Forms::ComboBox^ MovGenreCB;
@@ -272,8 +272,7 @@ namespace MoviesDB {
 		}
 
 		tmpTitle = MovNameTB->Text;
-		tmpGenre = MovGenreCB->SelectedText;
-		tmpPosterPath = MovPosterPath;
+		tmpGenre = (System::String^) MovGenreCB->Items[MovGenreCB->SelectedIndex];
 		tmpAnnotation = MovAnnTB->Text;
 		tmpRating = (int)MovRatingNum->Value;
 		tmpDate = System::DateTime(MovDatePicker->Value.Year, MovDatePicker->Value.Month, MovDatePicker->Value.Day);
@@ -284,6 +283,8 @@ namespace MoviesDB {
 	}
 
 	private: System::Void WAddMenu_Load(System::Object^ sender, System::EventArgs^ e) {
+		Bitmap^ defaultposter = gcnew Bitmap(tmpPosterPath);
+		MovPoster->Image = defaultposter;
 	}
 
 	private: System::Void MovAnnTB_TextChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -292,7 +293,6 @@ namespace MoviesDB {
 	private: System::Void MovPoster_Click(System::Object^ sender, System::EventArgs^ e) {
 		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
 		PosterPathDialog->Filter = "image files (*.png)|*.png";
-		//Bitmap^ imageFile;
 		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 			MovPosterPath = PosterPathDialog->FileName;
 			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName);

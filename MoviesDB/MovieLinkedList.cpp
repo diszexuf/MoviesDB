@@ -70,7 +70,7 @@ void MovieLinkedList::DeleteMovie(int movIndex) // удаление фильма
 
 }
 
-void MovieLinkedList::EditMovie(Movie^ movie, String^ _title, String^ _posterPath,  
+void  MovieLinkedList::EditMovie(Movie^ movie, String^ _title, String^ _posterPath,  
 	String^ _annotation, String^ _genre, int _raiting, DateTime _realeaseDate) // редактирование карточки
 {
 	movie->Title = _title;
@@ -151,7 +151,7 @@ bool MovieLinkedList::SaveBase(String^ path)
 		writer->Write(node->Rating + ",");
 		writer->Write(node->RealeaseDate.Year + ",");
 		writer->Write(node->RealeaseDate.Month + ",");
-		writer->Write(node->RealeaseDate.Day + ",");
+		writer->Write(node->RealeaseDate.Day + "\n");
 
 		node = node->Next; // переход к след узлу списка
 	}

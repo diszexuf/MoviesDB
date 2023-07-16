@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Movie.h"
+#include "MovieLinkedList.h"
 
 namespace MoviesDB {
 	using namespace System;
@@ -17,7 +18,12 @@ namespace MoviesDB {
 	{
 	public:
 		DateTime tmpDate;
-		Movie^ MovForEdit;
+	private: System::Windows::Forms::PictureBox^ poster;
+	public: System::String^ MovPosterPath;
+
+	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
+	public:
+		static Movie^ MovForEdit;
 	public:
 		WEditMenu(Movie^ movie)
 		{
@@ -39,7 +45,7 @@ namespace MoviesDB {
 
 
 	private: System::Windows::Forms::Label^ MovRatingLbl;
-	private: System::Windows::Forms::Label^ MovPosterPathLbl;
+
 	private: System::Windows::Forms::Label^ MovGenreLbl;
 	private: System::Windows::Forms::Label^ MovNameLbl;
 	private: System::Windows::Forms::Label^ MovDateLbl;
@@ -49,7 +55,6 @@ namespace MoviesDB {
 	private: System::Windows::Forms::DateTimePicker^ MovDatePrev;
 	private: System::Windows::Forms::NumericUpDown^ MovRatingPrevNum;
 	private: System::Windows::Forms::TextBox^ MovAnnPrevTB;
-	private: System::Windows::Forms::TextBox^ MovPosterPathPrevTB;
 	private: System::Windows::Forms::TextBox^ MovNamePrevTB;
 	private: System::Windows::Forms::Label^ MovInfoLbl;
 	private: System::Windows::Forms::ComboBox^ MovGenreCB;
@@ -68,7 +73,6 @@ namespace MoviesDB {
 		void InitializeComponent(void)
 		{
 			this->MovRatingLbl = (gcnew System::Windows::Forms::Label());
-			this->MovPosterPathLbl = (gcnew System::Windows::Forms::Label());
 			this->MovGenreLbl = (gcnew System::Windows::Forms::Label());
 			this->MovNameLbl = (gcnew System::Windows::Forms::Label());
 			this->MovDateLbl = (gcnew System::Windows::Forms::Label());
@@ -78,38 +82,30 @@ namespace MoviesDB {
 			this->MovDatePrev = (gcnew System::Windows::Forms::DateTimePicker());
 			this->MovRatingPrevNum = (gcnew System::Windows::Forms::NumericUpDown());
 			this->MovAnnPrevTB = (gcnew System::Windows::Forms::TextBox());
-			this->MovPosterPathPrevTB = (gcnew System::Windows::Forms::TextBox());
 			this->MovNamePrevTB = (gcnew System::Windows::Forms::TextBox());
 			this->MovInfoLbl = (gcnew System::Windows::Forms::Label());
 			this->MovGenreCB = (gcnew System::Windows::Forms::ComboBox());
+			this->poster = (gcnew System::Windows::Forms::PictureBox());
+			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingPrevNum))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->poster))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// MovRatingLbl
 			// 
 			this->MovRatingLbl->AutoSize = true;
 			this->MovRatingLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->MovRatingLbl->Location = System::Drawing::Point(64, 151);
+			this->MovRatingLbl->Location = System::Drawing::Point(77, 123);
 			this->MovRatingLbl->Name = L"MovRatingLbl";
 			this->MovRatingLbl->Size = System::Drawing::Size(69, 20);
 			this->MovRatingLbl->TabIndex = 41;
 			this->MovRatingLbl->Text = L"Оценка:";
 			// 
-			// MovPosterPathLbl
-			// 
-			this->MovPosterPathLbl->AutoSize = true;
-			this->MovPosterPathLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->MovPosterPathLbl->Location = System::Drawing::Point(7, 121);
-			this->MovPosterPathLbl->Name = L"MovPosterPathLbl";
-			this->MovPosterPathLbl->Size = System::Drawing::Size(126, 20);
-			this->MovPosterPathLbl->TabIndex = 42;
-			this->MovPosterPathLbl->Text = L"Путь к постеру:";
-			// 
 			// MovGenreLbl
 			// 
 			this->MovGenreLbl->AutoSize = true;
 			this->MovGenreLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->MovGenreLbl->Location = System::Drawing::Point(80, 93);
+			this->MovGenreLbl->Location = System::Drawing::Point(93, 93);
 			this->MovGenreLbl->Name = L"MovGenreLbl";
 			this->MovGenreLbl->Size = System::Drawing::Size(53, 20);
 			this->MovGenreLbl->TabIndex = 43;
@@ -119,7 +115,7 @@ namespace MoviesDB {
 			// 
 			this->MovNameLbl->AutoSize = true;
 			this->MovNameLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->MovNameLbl->Location = System::Drawing::Point(46, 60);
+			this->MovNameLbl->Location = System::Drawing::Point(59, 60);
 			this->MovNameLbl->Name = L"MovNameLbl";
 			this->MovNameLbl->Size = System::Drawing::Size(87, 20);
 			this->MovNameLbl->TabIndex = 40;
@@ -129,7 +125,7 @@ namespace MoviesDB {
 			// 
 			this->MovDateLbl->AutoSize = true;
 			this->MovDateLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->MovDateLbl->Location = System::Drawing::Point(21, 182);
+			this->MovDateLbl->Location = System::Drawing::Point(34, 154);
 			this->MovDateLbl->Name = L"MovDateLbl";
 			this->MovDateLbl->Size = System::Drawing::Size(112, 20);
 			this->MovDateLbl->TabIndex = 41;
@@ -139,7 +135,7 @@ namespace MoviesDB {
 			// 
 			this->MovAnnotLbl->AutoSize = true;
 			this->MovAnnotLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->MovAnnotLbl->Location = System::Drawing::Point(36, 215);
+			this->MovAnnotLbl->Location = System::Drawing::Point(50, 180);
 			this->MovAnnotLbl->Name = L"MovAnnotLbl";
 			this->MovAnnotLbl->Size = System::Drawing::Size(96, 20);
 			this->MovAnnotLbl->TabIndex = 41;
@@ -167,14 +163,14 @@ namespace MoviesDB {
 			// 
 			// MovDatePrev
 			// 
-			this->MovDatePrev->Location = System::Drawing::Point(176, 182);
+			this->MovDatePrev->Location = System::Drawing::Point(176, 154);
 			this->MovDatePrev->Name = L"MovDatePrev";
 			this->MovDatePrev->Size = System::Drawing::Size(300, 20);
 			this->MovDatePrev->TabIndex = 65;
 			// 
 			// MovRatingPrevNum
 			// 
-			this->MovRatingPrevNum->Location = System::Drawing::Point(176, 151);
+			this->MovRatingPrevNum->Location = System::Drawing::Point(176, 123);
 			this->MovRatingPrevNum->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
 			this->MovRatingPrevNum->Name = L"MovRatingPrevNum";
 			this->MovRatingPrevNum->Size = System::Drawing::Size(300, 20);
@@ -182,18 +178,11 @@ namespace MoviesDB {
 			// 
 			// MovAnnPrevTB
 			// 
-			this->MovAnnPrevTB->Location = System::Drawing::Point(176, 217);
+			this->MovAnnPrevTB->Location = System::Drawing::Point(176, 180);
 			this->MovAnnPrevTB->Multiline = true;
 			this->MovAnnPrevTB->Name = L"MovAnnPrevTB";
 			this->MovAnnPrevTB->Size = System::Drawing::Size(300, 269);
 			this->MovAnnPrevTB->TabIndex = 60;
-			// 
-			// MovPosterPathPrevTB
-			// 
-			this->MovPosterPathPrevTB->Location = System::Drawing::Point(176, 121);
-			this->MovPosterPathPrevTB->Name = L"MovPosterPathPrevTB";
-			this->MovPosterPathPrevTB->Size = System::Drawing::Size(300, 20);
-			this->MovPosterPathPrevTB->TabIndex = 61;
 			// 
 			// MovNamePrevTB
 			// 
@@ -225,17 +214,32 @@ namespace MoviesDB {
 			this->MovGenreCB->Size = System::Drawing::Size(300, 21);
 			this->MovGenreCB->TabIndex = 66;
 			// 
+			// poster
+			// 
+			this->poster->BackColor = System::Drawing::SystemColors::ControlDark;
+			this->poster->Location = System::Drawing::Point(12, 222);
+			this->poster->Name = L"poster";
+			this->poster->Size = System::Drawing::Size(134, 148);
+			this->poster->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->poster->TabIndex = 67;
+			this->poster->TabStop = false;
+			this->poster->Click += gcnew System::EventHandler(this, &WEditMenu::poster_Click);
+			// 
+			// openFileDialog1
+			// 
+			this->openFileDialog1->FileName = L"openFileDialog1";
+			// 
 			// WEditMenu
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Control;
 			this->ClientSize = System::Drawing::Size(501, 498);
+			this->Controls->Add(this->poster);
 			this->Controls->Add(this->MovGenreCB);
 			this->Controls->Add(this->MovDatePrev);
 			this->Controls->Add(this->MovRatingPrevNum);
 			this->Controls->Add(this->MovAnnPrevTB);
-			this->Controls->Add(this->MovPosterPathPrevTB);
 			this->Controls->Add(this->MovNamePrevTB);
 			this->Controls->Add(this->MovInfoLbl);
 			this->Controls->Add(this->MovSaveBtn);
@@ -243,12 +247,12 @@ namespace MoviesDB {
 			this->Controls->Add(this->MovAnnotLbl);
 			this->Controls->Add(this->MovDateLbl);
 			this->Controls->Add(this->MovRatingLbl);
-			this->Controls->Add(this->MovPosterPathLbl);
 			this->Controls->Add(this->MovGenreLbl);
 			this->Controls->Add(this->MovNameLbl);
 			this->Name = L"WEditMenu";
 			this->Load += gcnew System::EventHandler(this, &WEditMenu::WEditMenu_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingPrevNum))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->poster))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -256,18 +260,32 @@ namespace MoviesDB {
 #pragma endregion
 
 	private: System::Void WEditMenu_Load(System::Object^ sender, System::EventArgs^ e) {
+		MovNamePrevTB->Text = MovForEdit->Title;
+		MovGenreCB->Text = MovForEdit->Genre;
+		MovAnnPrevTB->Text = MovForEdit->Annotation;
+		MovDatePrev->Value = MovForEdit->RealeaseDate;
 	}
 
 	private: System::Void MovDelBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		MessageBox::Show("Фильм удален");
-		this->Close();
+		MovForEdit->Title == ""; // флаг для удаления фильма
+		MessageBox::Show("Фильм удален"); // информирование об удалении
+		this->Close(); // закрываем окно
 	}
 	private: System::Void MovSaveBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day);
-		//Movie^ tmp = gcnew Movie(MovNamePrevTB->Text, MovPosterPathPrevTB->Text, MovGenreCB->SelectedText, MovAnnPrevTB->Text, tmpDate, (int) MovRatingPrevNum->Value);
-		// WMainMenu::currentList->AddMovie(tmp);
-		MessageBox::Show("Изменения сохранены");
+		tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day); // формаирование новой даты
+		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, MovAnnPrevTB->Text, MovGenreCB->SelectedText, tmpDate, (int)MovRatingPrevNum->Value); // редактируем данные
+		MessageBox::Show("Изменения сохранены"); // информировани о сохранении 
+		this->Close(); // закрываем окно
 	}
 
-	};
+	private: System::Void poster_Click(System::Object^ sender, System::EventArgs^ e) {
+		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
+		PosterPathDialog->Filter = "image files (*.png)|*.png";
+		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+			MovPosterPath = PosterPathDialog->FileName;
+			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName);
+			poster->Image = imageFile;
+		}
+	}
+};
 }

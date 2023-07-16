@@ -14,17 +14,17 @@ public:
 		head = nullptr;
 		tail = nullptr;
 	}
-	Movie^ Head(); 
-	Movie^ Tail(); 
-	bool ReadBase(System::String^ path);
-	bool SaveBase(System::String^ path);
-	void AddMovie(Movie^ movie); 
-	void DeleteMovie(int MovIndex); 
+	Movie^ Head(); // голова списка
+	Movie^ Tail(); // хвост списка
+	bool ReadBase(System::String^ path); // удаление БД
+	bool SaveBase(System::String^ path); // сохранение БД
+	void AddMovie(Movie^ movie); // добавление фильма
+	void DeleteMovie(int MovIndex); //  удаление фильма
 	void EditMovie(Movie^ movie, System::String^ _title, System::String^ _posterPath,
-		System::String^ _annotation, System::String^ _genre, int _raiting, System::DateTime _realeaseDate);
-	List<Movie^>^ Find(System::String^ title);
-	List<Movie^>^ Find(int raitingFrom, int raitingTo); 
-	List<Movie^>^ FindbyGenre(System::String^ genre);
-	List<Movie^>^ GetMovies();
+		System::String^ _annotation, System::String^ _genre, int _raiting, System::DateTime _realeaseDate); // редактирование фильма
+	List<Movie^>^ Find(System::String^ title); // поиск по названию
+	List<Movie^>^ Find(int raitingFrom, int raitingTo); // поиск по рейтингу
+	List<Movie^>^ FindbyGenre(System::String^ genre); // Поиск по жанру
+	List<Movie^>^ GetMovies(); // Фильмы для вывода в ListBox
 };
 

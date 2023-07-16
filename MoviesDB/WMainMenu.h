@@ -449,8 +449,22 @@ namespace MoviesDB {
 
 	private: System::Void MovieList_MouseDoubleClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 		if (MovieList->SelectedIndex != -1) {
-			WEditMenu^ EditMenu = gcnew WEditMenu((Movie^)MovieList->Items[MovieList->SelectedIndex]);
+			WEditMenu^ EditMenu = gcnew WEditMenu(moviesListBox[MovieList->SelectedIndex]);
+			moviesList->DeleteMovie(MovieList->SelectedIndex);
+			moviesListBox->RemoveAt(MovieList->SelectedIndex);
 			EditMenu->ShowDialog();
+			
+			if (WEditMenu::MovForEdit->Title->Equals("") != true) {
+				moviesList->AddMovie(WEditMenu::MovForEdit);
+				
+				moviesListBox = moviesList->GetMovies();
+				MovieList->Items->Clear();
+				for each (Movie ^ m in moviesListBox)
+				{
+					MovieList->Items->Add(m->Title);
+				}
+
+			}
 		}
 	}
 
@@ -568,24 +582,17 @@ namespace MoviesDB {
 	}
 
 	private: System::Void MovieList_Click(System::Object^ sender, System::EventArgs^ e) {
-		int index = MovieList->SelectedIndex;
-		Movie^ MovShow = moviesListBox[MovieList->SelectedIndex];
-		MovNameShow->Text = MovShow->Title;
-		MovGenreShow->Text = MovShow->Genre;
-		MovAnnotShow->Text = MovShow->Annotation;
-		MovDateShow->Text = (MovShow->RealeaseDate.ToString())->Substring(0, 11);
-		MovRatingShow->Text = MovShow->Rating.ToString();
-		Bitmap^ poster= gcnew Bitmap(MovShow->PosterPath);
-		MovPosterShow->Image = poster;
-	}
-
-	public: System::Void MoviesOut(System::Object^ sender, System::EventArgs^ e) {
-		MovieList->Items->Clear();
-		for each (Movie^ m in moviesListBox)
-		{
-			MovieList->Items->Add(m->Title);
+		if (MovieList->SelectedIndex != -1) {
+			int index = MovieList->SelectedIndex;
+			Movie^ MovShow = moviesListBox[MovieList->SelectedIndex];
+			MovNameShow->Text = MovShow->Title;
+			MovGenreShow->Text = MovShow->Genre;
+			MovAnnotShow->Text = MovShow->Annotation;
+			MovDateShow->Text = (MovShow->RealeaseDate.ToString())->Substring(0, 11);
+			MovRatingShow->Text = MovShow->Rating.ToString();
+			Bitmap^ poster = gcnew Bitmap(MovShow->PosterPath);
+			MovPosterShow->Image = poster;
 		}
-
 	}
 	};
 }
