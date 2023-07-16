@@ -46,8 +46,8 @@ namespace MoviesDB {
 	private: System::String^ filePath = "";
 	public: MovieLinkedList^ moviesList = gcnew MovieLinkedList();
 	public: List<Movie^>^ moviesListBox = gcnew List<Movie^>;
-	private: Movie^ test1 = gcnew Movie("Test", "F:\\torrents", "Боевик", "аннтоация какой-то текст", DateTime(2003, 12, 23), 8);
-	private: Movie^ test2 = gcnew Movie("Testik", "F:\\torrents\\23asda", "Драма", "аннтоация какой-то текст", DateTime(2001, 11, 12), 10);
+	private: Movie^ test1 = gcnew Movie("Test", "F:\\pngs\\1.png", "Боевик", "аннтоация какой-то текст", DateTime(2003, 1, 2), 8);
+	private: Movie^ test2 = gcnew Movie("Testik", "F:\\pngs\\1.png", "Драма", "аннтоация какой-то текст", DateTime(2001, 11, 12), 10);
 
 	private:
 		System::Windows::Forms::ListBox^ MovieList;
@@ -72,17 +72,14 @@ namespace MoviesDB {
 		System::Windows::Forms::NumericUpDown^ MovRatingNumFrom;
 		System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 		System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
+	private: System::Windows::Forms::PictureBox^ MovPosterShow;
 
-	private: System::Windows::Forms::PictureBox^ pictureBox1;
 
-
-	private: System::Windows::Forms::TextBox^ textBox2;
-
-	private: System::Windows::Forms::TextBox^ textBox1;
-	private: System::Windows::Forms::TextBox^ textBox3;
-	private: System::Windows::Forms::TextBox^ textBox4;
-	private: System::Windows::Forms::TextBox^ textBox5;
-
+	private: System::Windows::Forms::TextBox^ MovAnnotShow;
+	private: System::Windows::Forms::TextBox^ MovNameShow;
+	private: System::Windows::Forms::TextBox^ MovGenreShow;
+	private: System::Windows::Forms::TextBox^ MovDateShow;
+	private: System::Windows::Forms::TextBox^ MovRatingShow;
 
 	private:
 		/// <summary>
@@ -116,16 +113,16 @@ namespace MoviesDB {
 			this->MovAddBtn = (gcnew System::Windows::Forms::Button());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
+			this->MovPosterShow = (gcnew System::Windows::Forms::PictureBox());
+			this->MovAnnotShow = (gcnew System::Windows::Forms::TextBox());
+			this->MovNameShow = (gcnew System::Windows::Forms::TextBox());
+			this->MovGenreShow = (gcnew System::Windows::Forms::TextBox());
+			this->MovDateShow = (gcnew System::Windows::Forms::TextBox());
+			this->MovRatingShow = (gcnew System::Windows::Forms::TextBox());
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumTo))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumFrom))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovPosterShow))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// MovieList
@@ -135,7 +132,7 @@ namespace MoviesDB {
 			this->MovieList->Name = L"MovieList";
 			this->MovieList->Size = System::Drawing::Size(128, 459);
 			this->MovieList->TabIndex = 13;
-			this->MovieList->SelectedIndexChanged += gcnew System::EventHandler(this, &WMainMenu::MovieList_SelectedIndexChanged);
+			this->MovieList->Click += gcnew System::EventHandler(this, &WMainMenu::MovieList_Click);
 			this->MovieList->MouseDoubleClick += gcnew System::Windows::Forms::MouseEventHandler(this, &WMainMenu::MovieList_MouseDoubleClick);
 			// 
 			// FindMovBtn
@@ -313,57 +310,57 @@ namespace MoviesDB {
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
-			// pictureBox1
+			// MovPosterShow
 			// 
-			this->pictureBox1->BackColor = System::Drawing::SystemColors::ControlDark;
-			this->pictureBox1->Enabled = false;
-			this->pictureBox1->Location = System::Drawing::Point(689, 13);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(199, 248);
-			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-			this->pictureBox1->TabIndex = 70;
-			this->pictureBox1->TabStop = false;
+			this->MovPosterShow->BackColor = System::Drawing::SystemColors::ControlDark;
+			this->MovPosterShow->Enabled = false;
+			this->MovPosterShow->Location = System::Drawing::Point(689, 13);
+			this->MovPosterShow->Name = L"MovPosterShow";
+			this->MovPosterShow->Size = System::Drawing::Size(199, 248);
+			this->MovPosterShow->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->MovPosterShow->TabIndex = 70;
+			this->MovPosterShow->TabStop = false;
 			// 
-			// textBox2
+			// MovAnnotShow
 			// 
-			this->textBox2->Enabled = false;
-			this->textBox2->Location = System::Drawing::Point(366, 13);
-			this->textBox2->Multiline = true;
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(314, 461);
-			this->textBox2->TabIndex = 67;
+			this->MovAnnotShow->Enabled = false;
+			this->MovAnnotShow->Location = System::Drawing::Point(366, 13);
+			this->MovAnnotShow->Multiline = true;
+			this->MovAnnotShow->Name = L"MovAnnotShow";
+			this->MovAnnotShow->Size = System::Drawing::Size(314, 461);
+			this->MovAnnotShow->TabIndex = 67;
 			// 
-			// textBox1
+			// MovNameShow
 			// 
-			this->textBox1->Enabled = false;
-			this->textBox1->Location = System::Drawing::Point(689, 286);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(199, 20);
-			this->textBox1->TabIndex = 65;
+			this->MovNameShow->Enabled = false;
+			this->MovNameShow->Location = System::Drawing::Point(689, 286);
+			this->MovNameShow->Name = L"MovNameShow";
+			this->MovNameShow->Size = System::Drawing::Size(199, 20);
+			this->MovNameShow->TabIndex = 65;
 			// 
-			// textBox3
+			// MovGenreShow
 			// 
-			this->textBox3->Enabled = false;
-			this->textBox3->Location = System::Drawing::Point(689, 312);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(199, 20);
-			this->textBox3->TabIndex = 65;
+			this->MovGenreShow->Enabled = false;
+			this->MovGenreShow->Location = System::Drawing::Point(689, 312);
+			this->MovGenreShow->Name = L"MovGenreShow";
+			this->MovGenreShow->Size = System::Drawing::Size(199, 20);
+			this->MovGenreShow->TabIndex = 65;
 			// 
-			// textBox4
+			// MovDateShow
 			// 
-			this->textBox4->Enabled = false;
-			this->textBox4->Location = System::Drawing::Point(689, 338);
-			this->textBox4->Name = L"textBox4";
-			this->textBox4->Size = System::Drawing::Size(199, 20);
-			this->textBox4->TabIndex = 65;
+			this->MovDateShow->Enabled = false;
+			this->MovDateShow->Location = System::Drawing::Point(689, 338);
+			this->MovDateShow->Name = L"MovDateShow";
+			this->MovDateShow->Size = System::Drawing::Size(199, 20);
+			this->MovDateShow->TabIndex = 65;
 			// 
-			// textBox5
+			// MovRatingShow
 			// 
-			this->textBox5->Enabled = false;
-			this->textBox5->Location = System::Drawing::Point(689, 364);
-			this->textBox5->Name = L"textBox5";
-			this->textBox5->Size = System::Drawing::Size(199, 20);
-			this->textBox5->TabIndex = 65;
+			this->MovRatingShow->Enabled = false;
+			this->MovRatingShow->Location = System::Drawing::Point(689, 364);
+			this->MovRatingShow->Name = L"MovRatingShow";
+			this->MovRatingShow->Size = System::Drawing::Size(199, 20);
+			this->MovRatingShow->TabIndex = 65;
 			// 
 			// WMainMenu
 			// 
@@ -371,12 +368,12 @@ namespace MoviesDB {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Control;
 			this->ClientSize = System::Drawing::Size(898, 483);
-			this->Controls->Add(this->pictureBox1);
-			this->Controls->Add(this->textBox2);
-			this->Controls->Add(this->textBox5);
-			this->Controls->Add(this->textBox4);
-			this->Controls->Add(this->textBox3);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->MovPosterShow);
+			this->Controls->Add(this->MovAnnotShow);
+			this->Controls->Add(this->MovRatingShow);
+			this->Controls->Add(this->MovDateShow);
+			this->Controls->Add(this->MovGenreShow);
+			this->Controls->Add(this->MovNameShow);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->BDActionsLbl);
 			this->Controls->Add(this->MovieList);
@@ -390,7 +387,7 @@ namespace MoviesDB {
 			this->panel1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumTo))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumFrom))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovPosterShow))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -402,6 +399,8 @@ namespace MoviesDB {
 		Greeting->ShowDialog();
 		moviesList->AddMovie(test1);
 		moviesList->AddMovie(test2);
+		moviesListBox = moviesList->GetMovies();
+
 		MovieList->Items->Add(test1->Title);
 		MovieList->Items->Add(test2->Title);
 
@@ -567,8 +566,26 @@ namespace MoviesDB {
 			MovieList->Items->Add(m->Title);
 		}
 	}
-	private: System::Void MovieList_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+
+	private: System::Void MovieList_Click(System::Object^ sender, System::EventArgs^ e) {
+		int index = MovieList->SelectedIndex;
+		Movie^ MovShow = moviesListBox[MovieList->SelectedIndex];
+		MovNameShow->Text = MovShow->Title;
+		MovGenreShow->Text = MovShow->Genre;
+		MovAnnotShow->Text = MovShow->Annotation;
+		MovDateShow->Text = (MovShow->RealeaseDate.ToString())->Substring(0, 11);
+		MovRatingShow->Text = MovShow->Rating.ToString();
+		Bitmap^ poster= gcnew Bitmap(MovShow->PosterPath);
+		MovPosterShow->Image = poster;
+	}
+
+	public: System::Void MoviesOut(System::Object^ sender, System::EventArgs^ e) {
+		MovieList->Items->Clear();
+		for each (Movie^ m in moviesListBox)
+		{
+			MovieList->Items->Add(m->Title);
+		}
 
 	}
-};
+	};
 }

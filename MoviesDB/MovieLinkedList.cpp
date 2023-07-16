@@ -11,23 +11,25 @@ using msclr::interop::marshal_as;
 using namespace System::IO;
 using namespace System;
 
-Movie^ MovieLinkedList::Head() {
+Movie^ MovieLinkedList::Head() // голова списка
+{
 	return head;
 }
 
-Movie^ MovieLinkedList::Tail() {
+Movie^ MovieLinkedList::Tail() // хвост списка
+{
 	return tail;
 }
 
-void MovieLinkedList::AddMovie(Movie^ mov)
+void MovieLinkedList::AddMovie(Movie^ mov) // добавление фильма
 {
-	if (head == nullptr)
+	if (head == nullptr) // при пустом списке
 	{
 		head = mov;
 		tail = mov;
 		return;
 	}
-	else
+	else // если элементов > 1
 	{
 		tail->Next = mov;
 		tail = mov;
@@ -36,40 +38,40 @@ void MovieLinkedList::AddMovie(Movie^ mov)
 	}
 }
 
-void MovieLinkedList::DeleteMovie(int movIndex) 
+void MovieLinkedList::DeleteMovie(int movIndex) // удаление фильма
 {
-	if (movIndex == 0) {
-		if (head == tail) {
+	if (movIndex == 0) { // удаление головы
+		if (head == tail) { // элемент в списке 1
 			head = nullptr;
 			tail = nullptr;
 			return;
 		}
-		else {
+		else { // элементов > 1
 			head = head->Next;
 			return;
 		}
 	}
 
 	int i = 1;
-	Movie^ current = head;
+	Movie^ current = head; // голова списка
 	
-	while (current->Next != tail && i < movIndex) {
+	while (current->Next != tail && i < movIndex) { // проход до нужного элемента
 		current = current->Next;
 		i += 1;
 	}
 
-	if (current->Next == tail) {
+	if (current->Next == tail) { // ≈сли удал€емый элемент €вл€етс€ хвостом
 		current->Next = nullptr;
 		tail = current;
 		return;
 	}
 	
-	current->Next = current->Next->Next;
+	current->Next = current->Next->Next; // удаление элемента
 
 }
 
-void MovieLinkedList::EditMovie(Movie^ movie, String^ _title, String^ _posterPath, 
-	String^ _annotation, String^ _genre, int _raiting, DateTime _realeaseDate)
+void MovieLinkedList::EditMovie(Movie^ movie, String^ _title, String^ _posterPath,  
+	String^ _annotation, String^ _genre, int _raiting, DateTime _realeaseDate) // редактирование карточки
 {
 	movie->Title = _title;
 	movie->Genre = _genre;
@@ -81,24 +83,24 @@ void MovieLinkedList::EditMovie(Movie^ movie, String^ _title, String^ _posterPat
 
 bool MovieLinkedList::ReadBase(String^ path)
 {
-	if (!System::IO::File::Exists(path)) return false; 
-	if (!path->EndsWith("csv")) return false; 
+	if (!System::IO::File::Exists(path)) return false;  // проверка существовани€ директории
+	if (!path->EndsWith("csv")) return false; // проверка расширени€
 
-	try
+	try // проверка потока чтени€
 	{
 		StreamReader^ test = gcnew StreamReader(path, System::Text::Encoding::GetEncoding(1251));
 		test->Close();
 	}
-	catch (IOException^)
+	catch (IOException^) // обработка исключени€
 	{
 		return false;
 	}
 
-	StreamReader^ reader = gcnew StreamReader(path, System::Text::Encoding::GetEncoding(1251));
+	StreamReader^ reader = gcnew StreamReader(path, System::Text::Encoding::GetEncoding(1251)); // поток чтени€
 
-	head = nullptr;
-	tail = nullptr;
-
+	head = nullptr; // голова
+	tail = nullptr; // хвост
+	// временные переменные полей
 	String^ str;
 	cli::array<System::String^>^ row;
 	String^ tempTitle; 
@@ -120,26 +122,26 @@ bool MovieLinkedList::ReadBase(String^ path)
 		tempRealeaseDate = DateTime(Convert::ToInt32(row[5]), Convert::ToInt32(row[6]), Convert::ToInt32(row[7]));
 		this->AddMovie(gcnew Movie(tempTitle, tempPosterPath, tempGenre, tempAnnotation, tempRealeaseDate, tempRating));
 	}
-	reader->Close();
-	return true; // вернуть истину, если файл прочитан
+	reader->Close(); // закрывем поток
+	return true; // успешное завершение
 }
 
 bool MovieLinkedList::SaveBase(String^ path)
 {
-	if (!path->EndsWith("csv")) return false;
+	if (!path->EndsWith("csv")) return false; // проверка рашсирени€ файла
 
-	try
+	try // тестовое подключение потока
 	{
 		StreamWriter^ test = gcnew StreamWriter(path, false, System::Text::Encoding::GetEncoding(1251));
 		test->Close();
 	}
 	catch (IOException^) // обработка исключени€
 	{
-		return false;
+		return false; // неуспешное завершение
 	}
 
-	StreamWriter^ writer = gcnew StreamWriter(path, false, System::Text::Encoding::GetEncoding(1251));
-	Movie^ node = head;
+	StreamWriter^ writer = gcnew StreamWriter(path, false, System::Text::Encoding::GetEncoding(1251)); // поток дл€ записи
+	Movie^ node = head; // голова списка дл€ записи
 	while (node != nullptr)
 	{
 		writer->Write(node->Title + ",");
@@ -151,55 +153,56 @@ bool MovieLinkedList::SaveBase(String^ path)
 		writer->Write(node->RealeaseDate.Month + ",");
 		writer->Write(node->RealeaseDate.Day + ",");
 
-		node = node->Next;
+		node = node->Next; // переход к след узлу списка
 	}
-	writer->Close();
+	writer->Close(); // закрываем поток
 
-	return true;
+	return true; // успешное завершение
 }
 
-List<Movie^>^ MovieLinkedList::Find(String^ title)
+List<Movie^>^ MovieLinkedList::Find(String^ title) // ѕоиск по названию
 {
-	List<Movie^>^ lst;
-	Movie^ current = head;
+	List<Movie^>^ lst; // лист дл€ результата
+	Movie^ current = head; // голова списка
 	while (current != nullptr) {
-		if (current->Title->ToLower()->Equals(title->ToLower()) == true)
+		if (current->Title->ToLower()->Contains(title->ToLower()) == true) // приводим к нижнему регистру
 		{
-			lst->Add(current);
+			lst->Add(current); // добавление совпадени€
 		}
 	}
 	return lst;
 }
 
-List<Movie^>^ MovieLinkedList::Find(int raitingFrom, int raitingTo)
+List<Movie^>^ MovieLinkedList::Find(int raitingFrom, int raitingTo) // ѕоиск по рейтингу
 {
-	List<Movie^>^ lst;
-	Movie^ current = head;
+	List<Movie^>^ lst; // лист дл€ результата
+	Movie^ current = head; // голова списка
 	while (current != nullptr) {
 		if (raitingFrom <= current->Rating && current->Rating <= raitingTo)
 		{
-			lst->Add(current);
+			lst->Add(current); // добавление совпадени€
 		}
 	}
 	return lst;
 }
 
-List<Movie^>^ MovieLinkedList::FindbyGenre(String^ genre) // ѕоиск по дате выхода
+List<Movie^>^ MovieLinkedList::FindbyGenre(String^ genre) // ѕоиск по жанру
 {
-	List<Movie^>^ lst;
-	Movie^ current = head;
+	List<Movie^>^ lst; // лист дл€ результата
+	Movie^ current = head; // голова списка
 	while (current != nullptr) {
 		if (current->Genre->Equals(genre) == true)
 		{
-			lst->Add(current);
+			lst->Add(current); // добавление совпадени€
 		}
 	}
 	return lst;
 }
 
-List<Movie^>^ MovieLinkedList::GetMovies() {
-	List<Movie^>^ result = gcnew List<Movie^>();
-	Movie^ cur = head;
+List<Movie^>^ MovieLinkedList::GetMovies() // ѕолучение списка дл€ вывода в lisbox
+{ 
+	List<Movie^>^ result = gcnew List<Movie^>(); // лист дл€ результата
+	Movie^ cur = head; // голова списка
 
 	while (cur != nullptr)
 	{

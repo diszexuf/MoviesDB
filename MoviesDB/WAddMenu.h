@@ -292,10 +292,10 @@ namespace MoviesDB {
 	private: System::Void MovPoster_Click(System::Object^ sender, System::EventArgs^ e) {
 		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
 		PosterPathDialog->Filter = "image files (*.png)|*.png";
-		Bitmap^ imageFile;
+		//Bitmap^ imageFile;
 		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 			MovPosterPath = PosterPathDialog->FileName;
-			imageFile = gcnew Bitmap(PosterPathDialog->FileName);
+			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName);
 			MovPoster->Image = imageFile;
 		}
 	}
