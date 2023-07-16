@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "WMainMenu.h"
+#include "Movie.h"
 
 namespace MoviesDB {
 	using namespace System;
@@ -15,12 +15,14 @@ namespace MoviesDB {
 	/// </summary>
 	public ref class WEditMenu : public System::Windows::Forms::Form
 	{
-	public: 
-		DateTime tmpDate;
 	public:
-		WEditMenu(void)
+		DateTime tmpDate;
+		Movie^ MovForEdit;
+	public:
+		WEditMenu(Movie^ movie)
 		{
 			InitializeComponent();
+			MovForEdit = movie;
 		}
 
 	protected:
@@ -56,7 +58,7 @@ namespace MoviesDB {
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -253,19 +255,19 @@ namespace MoviesDB {
 		}
 #pragma endregion
 
-private: System::Void WEditMenu_Load(System::Object^ sender, System::EventArgs^ e) {
-}
+	private: System::Void WEditMenu_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
 
-private: System::Void MovDelBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	MessageBox::Show("Фильм удален");
-	this->Close();
-}
-private: System::Void MovSaveBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day);
-	//Movie^ tmp = gcnew Movie(MovNamePrevTB->Text, MovPosterPathPrevTB->Text, MovGenreCB->SelectedText, MovAnnPrevTB->Text, tmpDate, (int) MovRatingPrevNum->Value);
-	// WMainMenu::currentList->AddMovie(tmp);
-	MessageBox::Show("Изменения сохранены");
-}
+	private: System::Void MovDelBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		MessageBox::Show("Фильм удален");
+		this->Close();
+	}
+	private: System::Void MovSaveBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day);
+		//Movie^ tmp = gcnew Movie(MovNamePrevTB->Text, MovPosterPathPrevTB->Text, MovGenreCB->SelectedText, MovAnnPrevTB->Text, tmpDate, (int) MovRatingPrevNum->Value);
+		// WMainMenu::currentList->AddMovie(tmp);
+		MessageBox::Show("Изменения сохранены");
+	}
 
-};
+	};
 }

@@ -67,7 +67,7 @@ namespace MoviesDB {
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -262,53 +262,53 @@ namespace MoviesDB {
 		}
 #pragma endregion
 
-private: System::Void fileSystemWatcher1_Changed(System::Object^ sender, System::IO::FileSystemEventArgs^ e) {
-	
-}
-private: System::Void AddMovButton_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (MovNameTB->Text->Length == 0 || MovGenreCB->SelectedIndex == -1 || MovAnnTB->Text->Length == 0) {
-		MessageBox::Show("Введены не все данные");
+	private: System::Void fileSystemWatcher1_Changed(System::Object^ sender, System::IO::FileSystemEventArgs^ e) {
+
+	}
+	private: System::Void AddMovButton_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (MovNameTB->Text->Length == 0 || MovGenreCB->SelectedIndex == -1 || MovAnnTB->Text->Length == 0) {
+			MessageBox::Show("Введены не все данные");
+			return;
+		}
+
+		tmpTitle = MovNameTB->Text;
+		tmpGenre = MovGenreCB->SelectedText;
+		tmpPosterPath = MovPosterPath;
+		tmpAnnotation = MovAnnTB->Text;
+		tmpRating = (int)MovRatingNum->Value;
+		tmpDate = System::DateTime(MovDatePicker->Value.Year, MovDatePicker->Value.Month, MovDatePicker->Value.Day);
+		mov = gcnew Movie(tmpTitle, tmpPosterPath, tmpGenre, tmpAnnotation, tmpDate, tmpRating);
+		MessageBox::Show("Фильм добавлен");
+		this->Close();
 		return;
 	}
-	
-	tmpTitle = MovNameTB->Text;
-	tmpGenre = MovGenreCB->SelectedText;
-	tmpPosterPath = MovPosterPath;
-	tmpAnnotation = MovAnnTB->Text;
-	tmpRating = (int) MovRatingNum->Value;
-	tmpDate = System::DateTime(MovDatePicker->Value.Year, MovDatePicker->Value.Month, MovDatePicker->Value.Day);
-	mov = gcnew Movie(tmpTitle, tmpPosterPath, tmpGenre, tmpAnnotation, tmpDate, tmpRating);
-	MessageBox::Show("Фильм добавлен");
-	this->Close();
-	return;
-}
 
-private: System::Void WAddMenu_Load(System::Object^ sender, System::EventArgs^ e) {
-}
-
-private: System::Void MovAnnTB_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-}
-
-private: System::Void MovPoster_Click(System::Object^ sender, System::EventArgs^ e) {
-	OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
-	PosterPathDialog->Filter = "image files (*.png)|*.png";
-	Bitmap^ imageFile;
-	if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-		MovPosterPath = PosterPathDialog->FileName;
-		imageFile = gcnew Bitmap(PosterPathDialog->FileName);
-		MovPoster->Image = imageFile;
+	private: System::Void WAddMenu_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
-}
 
-private: System::Void MovDatePicker_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
-	System::DateTime date = MovDatePicker->Value;
-	if (System::DateTime::Compare(date, System::DateTime::Now) > 0) {
-		MovRatingNum->Enabled = false;
+	private: System::Void MovAnnTB_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
-	else
-	{
-		MovRatingNum->Enabled = true;
+
+	private: System::Void MovPoster_Click(System::Object^ sender, System::EventArgs^ e) {
+		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
+		PosterPathDialog->Filter = "image files (*.png)|*.png";
+		Bitmap^ imageFile;
+		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+			MovPosterPath = PosterPathDialog->FileName;
+			imageFile = gcnew Bitmap(PosterPathDialog->FileName);
+			MovPoster->Image = imageFile;
+		}
 	}
-}
-};
+
+	private: System::Void MovDatePicker_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+		System::DateTime date = MovDatePicker->Value;
+		if (System::DateTime::Compare(date, System::DateTime::Now) > 0) {
+			MovRatingNum->Enabled = false;
+		}
+		else
+		{
+			MovRatingNum->Enabled = true;
+		}
+	}
+	};
 }

@@ -106,11 +106,11 @@ namespace MoviesDB {
 	}
 
 
-private: System::Void WGreeting_Load(System::Object^ sender, System::EventArgs^ e) {
-}
-private: System::Void OkButton_Click(System::Object^ sender, System::EventArgs^ e) {
-	this->Close();
-}
-	
-};
+	private: System::Void WGreeting_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void OkButton_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Close();
+	}
+
+	};
 }
