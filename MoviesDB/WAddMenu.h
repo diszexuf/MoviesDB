@@ -28,7 +28,7 @@ namespace MoviesDB {
 	public:
 
 	public:
-		DateTime tmpDate;
+		DateTime tmpDate; // временна€ переменна€ дл€ формировани€ даты
 	public:
 		WAddMenu(void)
 		{
@@ -46,7 +46,7 @@ namespace MoviesDB {
 				delete components;
 			}
 		}
-	public: static Movie^ mov;
+	public: static Movie^ mov; // временна€ переменна€ дл€ хранени€ данных о добавл€емом фильме
 
 	private: System::Windows::Forms::NumericUpDown^ MovRatingNum;
 	private: System::Windows::Forms::TextBox^ MovNameTB;
@@ -250,8 +250,7 @@ namespace MoviesDB {
 			this->Controls->Add(this->MovGenreLbl);
 			this->Controls->Add(this->MovNameLbl);
 			this->Name = L"WAddMenu";
-			this->Text = L"AddMovie";
-			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &WAddMenu::WAddMenu_FormClosing);
+			this->Text = L"MoviesDB";
 			this->Load += gcnew System::EventHandler(this, &WAddMenu::WAddMenu_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNum))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->fileSystemWatcher1))->EndInit();
@@ -263,51 +262,50 @@ namespace MoviesDB {
 #pragma endregion
 
 	private: System::Void fileSystemWatcher1_Changed(System::Object^ sender, System::IO::FileSystemEventArgs^ e) {
-
 	}
-	private: System::Void AddMovButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (MovNameTB->Text->Length == 0 || MovGenreCB->SelectedIndex == -1 || MovAnnTB->Text->Length == 0) {
-			MessageBox::Show("¬ведены не все данные");
+
+	private: System::Void AddMovButton_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки добавлени€
+		if (MovNameTB->Text->Length == 0 || MovGenreCB->SelectedIndex == -1 || MovAnnTB->Text->Length == 0) { // проверка заполненности об€зательных полей
+			MessageBox::Show("¬ведены не все данные"); // предупреждение
 			return;
 		}
-
+		// сбор данных
 		tmpTitle = MovNameTB->Text;
-		tmpGenre = (System::String^) MovGenreCB->Items[MovGenreCB->SelectedIndex];
+		tmpGenre = (System::String^)MovGenreCB->Items[MovGenreCB->SelectedIndex];
 		tmpAnnotation = MovAnnTB->Text;
-		if (MovRatingNum->Enabled == true) {
+		if (MovRatingNum->Enabled == true) { // если фильм не вышел, то ставим рейтинг 0
 			tmpRating = (int)MovRatingNum->Value;
 		}
 		else
 		{
-			tmpRating = 0; 
+			tmpRating = 0;
 		}
-		
+
 		tmpDate = System::DateTime(MovDatePicker->Value.Year, MovDatePicker->Value.Month, MovDatePicker->Value.Day);
-		mov = gcnew Movie(tmpTitle, tmpPosterPath, tmpGenre, tmpAnnotation, tmpDate, tmpRating);
-		MessageBox::Show("‘ильм добавлен");
-		this->Close();
+		mov = gcnew Movie(tmpTitle, tmpPosterPath, tmpGenre, tmpAnnotation, tmpDate, tmpRating); // создаем экзмемпл€р класса Movie дл€ добавлени€ в список
+		MessageBox::Show("‘ильм добавлен"); // уведомление о добавлении
+		this->Close(); // закрываем окно
 		return;
 	}
 
-	private: System::Void WAddMenu_Load(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void WAddMenu_Load(System::Object^ sender, System::EventArgs^ e) { // загрузчик окна
 		Bitmap^ defaultposter = gcnew Bitmap(tmpPosterPath);
-		MovPoster->Image = defaultposter;
+		MovPoster->Image = defaultposter; // ставим вместо постера default изображение, чтобы в случае отсутстви€ постера ставилось оно
 	}
 
-
-	private: System::Void MovPoster_Click(System::Object^ sender, System::EventArgs^ e) {
-		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
-		PosterPathDialog->Filter = "image files (*.png)|*.png";
-		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-			tmpPosterPath = PosterPathDialog->FileName;
-			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName);
-			MovPoster->Image = imageFile;
+	private: System::Void MovPoster_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик клика по постеру
+		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog(); 
+		PosterPathDialog->Filter = "image files (*.png)|*.png"; // проверка расширени€ файла
+		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) { // в случае успеха считываем путь
+			tmpPosterPath = PosterPathDialog->FileName; // считываем путь
+			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName); 
+			MovPoster->Image = imageFile; // устанавливаем изображение в PictureBox
 		}
 	}
 
-	private: System::Void MovDatePicker_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void MovDatePicker_ValueChanged(System::Object^ sender, System::EventArgs^ e) { // обработчик даты
 		System::DateTime date = MovDatePicker->Value;
-		if (System::DateTime::Compare(date, System::DateTime::Now) > 0) {
+		if (System::DateTime::Compare(date, System::DateTime::Now) > 0) { // если фильм не вышел, то блокируем форму дл€ изменени€ рейтинга
 			MovRatingNum->Enabled = false;
 		}
 		else
@@ -315,8 +313,6 @@ namespace MoviesDB {
 			MovRatingNum->Enabled = true;
 		}
 	}
-	private: System::Void WAddMenu_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
-		
-	}
-};
+
+	};
 }

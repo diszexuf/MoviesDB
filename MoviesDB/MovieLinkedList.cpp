@@ -203,7 +203,7 @@ List<Movie^>^ MovieLinkedList::GetMovies() // Получение списка для вывода в lisb
 	List<Movie^>^ result = gcnew List<Movie^>(); // лист для результата
 	Movie^ cur = head; // голова списка
 
-	while (cur != nullptr)
+	while (cur != nullptr) // в цикле добавляем элементы в Лист
 	{
 		result->Add(cur);
 		cur = cur->Next;

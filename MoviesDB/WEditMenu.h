@@ -17,18 +17,17 @@ namespace MoviesDB {
 	public ref class WEditMenu : public System::Windows::Forms::Form
 	{
 	public:
-		DateTime tmpDate;
+		DateTime tmpDate; // временная переменная для формирования даты
+		System::String^ MovPosterPath; // временная переменная для пути к постеру
+		static Movie^ MovForEdit; // редактируемый фильм
+	
 	private: System::Windows::Forms::PictureBox^ poster;
-	public: System::String^ MovPosterPath;
-
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 	public:
-		static Movie^ MovForEdit;
-	public:
-		WEditMenu(Movie^ movie)
+		WEditMenu(Movie^ movie) // конструктор формы
 		{
 			InitializeComponent();
-			MovForEdit = movie;
+			MovForEdit = movie; // принимаем переданный фильм во временную переменную
 		}
 
 	protected:
@@ -45,7 +44,6 @@ namespace MoviesDB {
 
 
 	private: System::Windows::Forms::Label^ MovRatingLbl;
-
 	private: System::Windows::Forms::Label^ MovGenreLbl;
 	private: System::Windows::Forms::Label^ MovNameLbl;
 	private: System::Windows::Forms::Label^ MovDateLbl;
@@ -252,6 +250,7 @@ namespace MoviesDB {
 			this->Controls->Add(this->MovGenreLbl);
 			this->Controls->Add(this->MovNameLbl);
 			this->Name = L"WEditMenu";
+			this->Text = L"MoviesDB";
 			this->Load += gcnew System::EventHandler(this, &WEditMenu::WEditMenu_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingPrevNum))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->poster))->EndInit();
@@ -262,12 +261,13 @@ namespace MoviesDB {
 #pragma endregion
 
 	private: System::Void WEditMenu_Load(System::Object^ sender, System::EventArgs^ e) {
+		// выставляем в поля данные о фильме для редактирования 
 		MovNamePrevTB->Text = MovForEdit->Title;
 		MovGenreCB->Text = MovForEdit->Genre;
 		MovAnnPrevTB->Text = MovForEdit->Annotation;
 		MovDatePrev->Value = MovForEdit->RealeaseDate;
 		MovPosterPath = MovForEdit->PosterPath;
-		if (System::IO::File::Exists(MovForEdit->PosterPath) == true) {
+		if (System::IO::File::Exists(MovForEdit->PosterPath) == true) { // проверяем существование файла, в ином случае убираем изображение
 			Bitmap^ img = gcnew Bitmap(MovForEdit->PosterPath);
 			poster->Image = img;
 		}
@@ -277,25 +277,27 @@ namespace MoviesDB {
 		}
 	}
 
-	private: System::Void MovDelBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		MovForEdit->Title = ""; // флаг для удаления фильма
-		MessageBox::Show("Фильм удален"); // информирование об удалении
-		this->Close(); // закрываем окно
-	}
-	private: System::Void MovSaveBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day); // формирование новой даты
-		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, (System::String^) MovGenreCB->Items[MovGenreCB->SelectedIndex], MovAnnPrevTB->Text, tmpDate, (int)MovRatingPrevNum->Value); // редактируем данные
-		MessageBox::Show("Изменения сохранены"); // информировани о сохранении 
+	private: System::Void MovDelBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки удаления
+		MovForEdit->Title = ""; // флаг для удаления фильма 
+		MessageBox::Show("Фильм удален"); // информирование об удалении (операция удаления в главном окне)
 		this->Close(); // закрываем окно
 	}
 
-	private: System::Void poster_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void MovSaveBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки сохранения
+		tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day); // формирование новой даты
+		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, (System::String^) MovGenreCB->Items[MovGenreCB->SelectedIndex], MovAnnPrevTB->Text, tmpDate, (int)MovRatingPrevNum->Value); // редактируем данные
+		MessageBox::Show("Изменения сохранены"); // информировани о сохранении (операция сохранения в главном окне)
+		this->Close(); // закрываем окно
+	}
+
+	private: System::Void poster_Click(System::Object^ sender, System::EventArgs^ e) { // обработка клику по постеру
 		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
-		PosterPathDialog->Filter = "image files (*.png)|*.png";
+		PosterPathDialog->Filter = "image files (*.png)|*.png"; // проверка расширения
+		// считываем и устанавливаем новое изображение
 		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-			MovPosterPath = PosterPathDialog->FileName;
+			MovPosterPath = PosterPathDialog->FileName; 
 			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName);
-			poster->Image = imageFile;
+			poster->Image = imageFile; 
 		}
 	}
 };

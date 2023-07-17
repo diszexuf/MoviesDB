@@ -10,7 +10,7 @@ public:
 	int Rating; // рейтинг
 	Movie ^Next; // ссылка на след элемент
 	Movie(System::String^ title, System::String^ posterpath, System::String^ genre, 
-		System::String^ annotation, System::DateTime realesadate, int rating)
+		System::String^ annotation, System::DateTime realesadate, int rating) // конструктор класса
 	{
 		this->Title = title;
 		this->Genre = genre;

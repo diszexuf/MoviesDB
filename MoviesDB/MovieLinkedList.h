@@ -6,10 +6,10 @@ using namespace System::Collections::Generic;
 ref class MovieLinkedList
 {
 private:
-	Movie^ head;
-	Movie^ tail;
+	Movie^ head; // голова списка
+	Movie^ tail; // хвост списка
 public:
-	MovieLinkedList()
+	MovieLinkedList() // конструктор односвязного списка
 	{
 		head = nullptr;
 		tail = nullptr;

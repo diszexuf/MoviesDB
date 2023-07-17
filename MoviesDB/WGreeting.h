@@ -31,12 +31,8 @@ namespace MoviesDB {
 				delete components;
 			}
 		}
-
-
-	private: System::Windows::Forms::ImageList^ imageList1;
 	private: System::Windows::Forms::Button^ OkBtn;
 	private: System::Windows::Forms::Label^ GreetLbl;
-
 	private: System::ComponentModel::IContainer^ components;
 	private:
 		/// <summary>
@@ -51,18 +47,9 @@ namespace MoviesDB {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = (gcnew System::ComponentModel::Container());
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(WGreeting::typeid));
-			this->imageList1 = (gcnew System::Windows::Forms::ImageList(this->components));
 			this->OkBtn = (gcnew System::Windows::Forms::Button());
 			this->GreetLbl = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
-			// 
-			// imageList1
-			// 
-			this->imageList1->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"imageList1.ImageStream")));
-			this->imageList1->TransparentColor = System::Drawing::Color::Transparent;
-			this->imageList1->Images->SetKeyName(0, L"wallpaperflare.com_wallpaper.jpg");
 			// 
 			// OkBtn
 			// 
@@ -102,14 +89,12 @@ namespace MoviesDB {
 
 		}
 #pragma endregion
-	private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
-	}
-
 
 	private: System::Void WGreeting_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
-	private: System::Void OkButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->Close();
+
+	private: System::Void OkButton_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки "продолжить"
+		this->Close(); // закрываем окно
 	}
 
 	};

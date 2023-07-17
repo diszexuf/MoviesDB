@@ -44,11 +44,10 @@ namespace MoviesDB {
 			}
 		}
 
-	private: System::String^ filePath = "";
-	public: MovieLinkedList^ moviesList = gcnew MovieLinkedList();
-	public: List<Movie^>^ moviesListBox = gcnew List<Movie^>;
-	private: Movie^ test1 = gcnew Movie("Test", "F:\\pngs\\1.png", "Боевик", "аннтоация какой-то текст", DateTime(2003, 1, 2), 8);
-	private: Movie^ test2 = gcnew Movie("Testik", "F:\\pngs\\1.png", "Драма", "аннтоация какой-то текст", DateTime(2001, 11, 12), 10);
+	public: 
+		System::String^ filePath = ""; // временная переменная для пути к постеру
+		MovieLinkedList^ moviesList = gcnew MovieLinkedList(); // лист со всей БД
+		List<Movie^>^ moviesListBox = gcnew List<Movie^>; // лист на вывод в ListBox
 
 	private:
 		System::Windows::Forms::ListBox^ MovieList;
@@ -63,7 +62,6 @@ namespace MoviesDB {
 		System::Windows::Forms::Label^ SearchParamsLbl;
 		System::Windows::Forms::Button^ ReadBDBtn;
 		System::Windows::Forms::Button^ SaveBDBtn;
-
 		System::Windows::Forms::TextBox^ MovNameTB;
 		System::Windows::Forms::Label^ BDActionsLbl;
 		System::Windows::Forms::Panel^ panel1;
@@ -73,19 +71,14 @@ namespace MoviesDB {
 		System::Windows::Forms::NumericUpDown^ MovRatingNumFrom;
 		System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 		System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
-	private: System::Windows::Forms::PictureBox^ MovPosterShow;
-
-
-	private: System::Windows::Forms::TextBox^ MovAnnotShow;
-	private: System::Windows::Forms::TextBox^ MovNameShow;
-	private: System::Windows::Forms::TextBox^ MovGenreShow;
-	private: System::Windows::Forms::TextBox^ MovDateShow;
-	private: System::Windows::Forms::TextBox^ MovRatingShow;
-	private: System::Windows::Forms::Button^ AllListBtn;
-	private: System::Windows::Forms::Button^ UnrealesMovBtn;
-
-
-
+		System::Windows::Forms::PictureBox^ MovPosterShow;
+		System::Windows::Forms::TextBox^ MovAnnotShow;
+		System::Windows::Forms::TextBox^ MovNameShow;
+		System::Windows::Forms::TextBox^ MovGenreShow;
+		System::Windows::Forms::TextBox^ MovDateShow;
+		System::Windows::Forms::TextBox^ MovRatingShow;
+		System::Windows::Forms::Button^ AllListBtn;
+		System::Windows::Forms::Button^ UnrealesMovBtn;
 
 	private:
 		/// <summary>
@@ -415,7 +408,7 @@ namespace MoviesDB {
 			this->Controls->Add(this->SaveBDBtn);
 			this->Controls->Add(this->ReadBDBtn);
 			this->Name = L"WMainMenu";
-			this->Text = L"MovList";
+			this->Text = L"MoviesDB";
 			this->Load += gcnew System::EventHandler(this, &WMainMenu::WMainMenu_Load);
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
@@ -428,34 +421,28 @@ namespace MoviesDB {
 		}
 #pragma endregion
 
-	private: System::Void WMainMenu_Load(System::Object^ sender, System::EventArgs^ e) {
-		WGreeting^ Greeting = gcnew WGreeting;
-		Greeting->ShowDialog();
-		moviesList->AddMovie(test1);
-		moviesList->AddMovie(test2);
-		moviesListBox = moviesList->GetMovies();
-
-		MovieList->Items->Add(test1->Title);
-		MovieList->Items->Add(test2->Title);
-
+	private: System::Void WMainMenu_Load(System::Object^ sender, System::EventArgs^ e) { // загрузчик главного окна
+		WGreeting^ Greeting = gcnew WGreeting; 
+		Greeting->ShowDialog(); // открываем приветственное окно 
 	}
 
-	private: System::Void ReadBDBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void ReadBDBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки чтения бд
 		OpenFileDialog^ folderDialog = gcnew OpenFileDialog();
-		folderDialog->Filter = "CSV File (.csv)|*.csv";
+		folderDialog->Filter = "CSV File (.csv)|*.csv"; // проверка расширения файла бд
 
 		if (folderDialog->ShowDialog() == System::Windows::Forms::DialogResult::Cancel)
 		{
 			return;
 		}
 
-		filePath = folderDialog->FileName;
+		filePath = folderDialog->FileName; // считываем путь к файлу
 
 		bool isReaded = moviesList->ReadBase(filePath); // Считываем информацию с базы в односвязный список
 		if (!isReaded)
-			MessageBox::Show("Не удалось открыть файл!");
+			MessageBox::Show("Не удалось открыть файл!"); // в случае ошибки выводим предупреждение
 
 		moviesListBox = moviesList->GetMovies(); // Добавляем в обычный список элементы на вывод в listBox
+		// формируем список на вывод в ListBox и выводим список
 		MovieList->Items->Clear();
 		for each (Movie ^ m in moviesListBox)
 		{
@@ -463,37 +450,38 @@ namespace MoviesDB {
 		}
 	}
 
-	private: System::Void SaveBDBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void SaveBDBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки сохранения бд
 		SaveFileDialog^ saveFile = gcnew SaveFileDialog();
-		saveFile->Filter = "CSV File (.csv)|*.csv";
+		saveFile->Filter = "CSV File (.csv)|*.csv"; // проверка расширения файла
 
 		if (saveFile->ShowDialog() == System::Windows::Forms::DialogResult::Cancel)
 		{
 			return;
 		}
-		filePath = saveFile->FileName;
+		filePath = saveFile->FileName; // считываем путь к директории
 
-		bool SaveStatement = moviesList->SaveBase(filePath);
+		bool SaveStatement = moviesList->SaveBase(filePath); // сохраняем БД
 
 		if (!SaveStatement)
 		{
-			MessageBox::Show("Не удалось сохранить файл");
+			MessageBox::Show("Не удалось сохранить файл"); // предупреждение при неудаче
 		}
 	}
 
-	private: System::Void MovieList_MouseDoubleClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-		if (MovieList->SelectedIndex != -1) {
-			WEditMenu^ EditMenu = gcnew WEditMenu(moviesListBox[MovieList->SelectedIndex]);
-			moviesList->DeleteMovie(MovieList->SelectedIndex);
-			moviesListBox->RemoveAt(MovieList->SelectedIndex);
-			EditMenu->ShowDialog();
+	private: System::Void MovieList_MouseDoubleClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) { // обработчик двойного клика на элемент списка
+		if (MovieList->SelectedIndex != -1) { // проверяем, чтобы двойной клик не был осуществлен по пустому пространству
+			WEditMenu^ EditMenu = gcnew WEditMenu(moviesListBox[MovieList->SelectedIndex]); // передаем в EditMenu элемент базы
+			moviesList->DeleteMovie(MovieList->SelectedIndex); // удаляем элемент из бд
+			moviesListBox->RemoveAt(MovieList->SelectedIndex); // удаляем элемент из списка на вывод
+			EditMenu->ShowDialog(); // вызываем EditMenu
 
-			if (WEditMenu::MovForEdit->Title->Equals("") != true) {
-				moviesList->AddMovie(WEditMenu::MovForEdit);
-			}
+			if (WEditMenu::MovForEdit->Title->Equals("") != true) { // если название не пустое, то фильм не на удаление
+				moviesList->AddMovie(WEditMenu::MovForEdit); // добавляем фильм после редактирования
+			} // фильмы на удаление не возвращаются в бд
 
-			moviesListBox = moviesList->GetMovies();
-			MovieList->Items->Clear();
+			moviesListBox = moviesList->GetMovies(); // формируем список на вывод
+			MovieList->Items->Clear(); // очищаем предыдущие элементы
+			// Вывод списка фильмов
 			for each (Movie ^ m in moviesListBox)
 			{
 				MovieList->Items->Add(m->Title);
@@ -503,12 +491,13 @@ namespace MoviesDB {
 		}
 	}
 
-	private: System::Void FindMovBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		MovNameTB->Enabled = true;
-		MovGenreCB->Enabled = true;
+	private: System::Void FindMovBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки поиска
+		// возвращаем доступ к критериям поиска
+		MovNameTB->Enabled = true; 
+		MovGenreCB->Enabled = true; 
 		MovRatingNumFrom->Enabled = true;
 		MovRatingNumTo->Enabled = true;
-
+		// проверяем, по какому критерию нужно осуществить поиск и формируем список на вывод
 		if (MovNameTB->Text->Length != 0) {
 			moviesListBox = moviesList->Find(MovNameTB->Text);
 		}
@@ -518,27 +507,27 @@ namespace MoviesDB {
 		else {
 			moviesListBox = moviesList->Find((int)MovRatingNumFrom->Value, (int)MovRatingNumTo->Value);
 		}
-
-		if (moviesListBox->Count == -1) {
+		// Если элементы найдены, то выводим результат поиска
+		if (moviesListBox->Count != -1) {
 			MovieList->Items->Clear();
 			for (int i = 0; i < moviesListBox->Count; i++) {
 				MovieList->Items->Add(moviesListBox[i]->Title);
 			}
 		}
-		else
+		else // Если не найдено, то предупреждение
 		{
-			MessageBox::Show("Фильмы по данному критерию не найдены");
+			MessageBox::Show("Фильмы по данному критерию не найдены");  // Список фильмов остается тем же, что и перед поиском
 		}
 		
-
-		MovNameTB->Text = "";
+		// ставим начальные значения для критериев поиска и блокируем кнопку поиска
+		MovNameTB->Text = ""; 
 		MovGenreCB->SelectedIndex = -1;
 		MovRatingNumFrom->Value = 1;
 		MovRatingNumTo->Value = 10;
 		FindMovBtn->Enabled = false;
 	}
 
-	private: System::Void MovNameTB_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void MovNameTB_TextChanged(System::Object^ sender, System::EventArgs^ e) { // обработчик поля для названия
 		// вкл\выкл кнопки поиска
 		if (MovNameTB->Text->Length == 0 && (MovGenreCB->SelectedIndex != -1 || MovGenreCB->SelectedIndex != 0) && (int)MovRatingNumFrom->Value == 0 && (int)MovRatingNumTo->Value == 10) {
 			FindMovBtn->Enabled = false;
@@ -564,7 +553,7 @@ namespace MoviesDB {
 		}
 	}
 
-	private: System::Void MovGenreCB_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void MovGenreCB_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) { // обработчик поля для жанра
 		// вкл\выкл кнопки поиска
 		if (MovNameTB->Text->Length == 0 && ((int)MovGenreCB->SelectedIndex == -1 || (int)MovGenreCB->SelectedIndex == 0) && (int)MovRatingNumFrom->Value == 0 && (int)MovRatingNumTo->Value == 10) {
 			FindMovBtn->Enabled = false;
@@ -590,7 +579,7 @@ namespace MoviesDB {
 		}
 	}
 
-	private: System::Void MovRatingNum_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void MovRatingNum_ValueChanged(System::Object^ sender, System::EventArgs^ e) { // обработчик полей рейтинга
 		// вкл\выкл кнопки поиска
 		if (MovNameTB->Text->Length == 0 && (MovGenreCB->SelectedIndex != -1 || MovGenreCB->SelectedIndex != 0) && (int)MovRatingNumFrom->Value == 0 && (int)MovRatingNumTo->Value == 10) {
 			FindMovBtn->Enabled = false;
@@ -616,47 +605,47 @@ namespace MoviesDB {
 		}
 
 		// ограничение максимального значения
-		MovRatingNumFrom->Maximum = MovRatingNumTo->Value;
-		MovRatingNumTo->Minimum = MovRatingNumFrom->Value;
+		MovRatingNumFrom->Maximum = MovRatingNumTo->Value; // максимальное значение нижней границы = значению верхней границы
+		MovRatingNumTo->Minimum = MovRatingNumFrom->Value; // минимальное значение верхней границы = значению нижней границы
 	}
 
-	private: System::Void MovAddBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void MovAddBtn_Click(System::Object^ sender, System::EventArgs^ e) { // орбаботчик кнопки добавления
 		WAddMenu^ AddMenu = gcnew WAddMenu;
-		AddMenu->ShowDialog();
-		if (WAddMenu::mov != nullptr) {
-			moviesList->AddMovie(WAddMenu::mov);
-			moviesListBox = moviesList->GetMovies();
-			MovieList->Items->Clear();
-			for each (Movie ^ m in moviesListBox)
+		AddMenu->ShowDialog(); // открываем окно AddMenu
+		if (WAddMenu::mov != nullptr) { // после добавления проверяем, чтобы данные существовали
+			moviesList->AddMovie(WAddMenu::mov); // добавляем фильм в список
+			moviesListBox = moviesList->GetMovies(); // формируем список на вывод
+			MovieList->Items->Clear(); 
+			for each (Movie ^ m in moviesListBox) // выводим фильмы
 			{
 				MovieList->Items->Add(m->Title);
 			}
 		}
 	}
 
-	private: System::Void MovieList_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод информации о выбранном фильме
-		if (MovieList->SelectedIndex != -1) {
-			int index = MovieList->SelectedIndex;
-			Movie^ MovShow = moviesListBox[MovieList->SelectedIndex];
+	private: System::Void MovieList_Click(System::Object^ sender, System::EventArgs^ e) { // Обработчик клика на фильм (Вывод информации о выбранном фильме)
+		if (MovieList->SelectedIndex != -1) { // проверка, что клик по фильму
+			Movie^ MovShow = moviesListBox[MovieList->SelectedIndex]; // считываем выбранный фильм
+			// вывод в поля справа всех данные о фильме
 			MovNameShow->Text = MovShow->Title;
 			MovGenreShow->Text = MovShow->Genre;
 			MovAnnotShow->Text = MovShow->Annotation;
-			MovDateShow->Text = (MovShow->RealeaseDate.ToString())->Substring(0, 11);
+			MovDateShow->Text = (MovShow->RealeaseDate.ToString())->Substring(0, 11); // срез, чтобы осталась только дата
 			MovRatingShow->Text = MovShow->Rating.ToString();
 			
-			if (System::IO::File::Exists(MovShow->PosterPath) == true) {
+			if (System::IO::File::Exists(MovShow->PosterPath) == true) { // проверка существования файла
 				Bitmap^ poster = gcnew Bitmap(MovShow->PosterPath);
-				MovPosterShow->Image = poster;
+				MovPosterShow->Image = poster; // вывод постера
 			}
 			else
 			{
-				MovPosterShow->Image = nullptr;
+				MovPosterShow->Image = nullptr; // в ином случае отображается default изображения для класса
 			}
 		}
 	}
 
-	private: System::Void AllListBtn_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод всего списка фильмов
-		moviesListBox = moviesList->GetMovies();
+	private: System::Void AllListBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки "Сброс" (Вывод всего списка фильмов)
+		moviesListBox = moviesList->GetMovies(); // формируем список на вывод данных БД
 		MovieList->Items->Clear();
 		for each (Movie ^ m in moviesListBox)
 		{
@@ -664,10 +653,10 @@ namespace MoviesDB {
 		}
 	}
 
-	private: System::Void UnrealesMovBtn_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод не вышедших фильмов
-		moviesListBox = moviesList->Find(0, 0); // поиск фильмов с рейтингом 0 
+	private: System::Void UnrealesMovBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки "Не вышедшие фильмы" (Вывод не вышедших фильмов)
+		moviesListBox = moviesList->Find(0, 0); // поиск фильмов с рейтингом 0 (у не вышедших рейтинг = 0)
 		MovieList->Items->Clear();
-		for each (Movie ^ m in moviesListBox)
+		for each (Movie ^ m in moviesListBox) // вывод в ListBox
 		{
 			MovieList->Items->Add(m->Title);
 		}
