@@ -264,6 +264,7 @@ namespace MoviesDB {
 		MovGenreCB->Text = MovForEdit->Genre;
 		MovAnnPrevTB->Text = MovForEdit->Annotation;
 		MovDatePrev->Value = MovForEdit->RealeaseDate;
+		MovPosterPath = MovForEdit->PosterPath;
 		Bitmap^ img = gcnew Bitmap(MovForEdit->PosterPath);
 		poster->Image = img;
 	}
@@ -274,8 +275,8 @@ namespace MoviesDB {
 		this->Close(); // закрываем окно
 	}
 	private: System::Void MovSaveBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day); // формаирование новой даты
-		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, MovAnnPrevTB->Text, MovGenreCB->SelectedText, tmpDate, (int)MovRatingPrevNum->Value); // редактируем данные
+		tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day); // формирование новой даты
+		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, (System::String^) MovGenreCB->Items[MovGenreCB->SelectedIndex], MovAnnPrevTB->Text, tmpDate, (int)MovRatingPrevNum->Value); // редактируем данные
 		MessageBox::Show("Изменения сохранены"); // информировани о сохранении 
 		this->Close(); // закрываем окно
 	}

@@ -80,6 +80,8 @@ namespace MoviesDB {
 	private: System::Windows::Forms::TextBox^ MovGenreShow;
 	private: System::Windows::Forms::TextBox^ MovDateShow;
 	private: System::Windows::Forms::TextBox^ MovRatingShow;
+	private: System::Windows::Forms::Button^ AllListBtn;
+
 
 	private:
 		/// <summary>
@@ -119,6 +121,7 @@ namespace MoviesDB {
 			this->MovGenreShow = (gcnew System::Windows::Forms::TextBox());
 			this->MovDateShow = (gcnew System::Windows::Forms::TextBox());
 			this->MovRatingShow = (gcnew System::Windows::Forms::TextBox());
+			this->AllListBtn = (gcnew System::Windows::Forms::Button());
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumTo))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumFrom))->BeginInit();
@@ -362,12 +365,23 @@ namespace MoviesDB {
 			this->MovRatingShow->Size = System::Drawing::Size(199, 20);
 			this->MovRatingShow->TabIndex = 65;
 			// 
+			// AllListBtn
+			// 
+			this->AllListBtn->Location = System::Drawing::Point(179, 171);
+			this->AllListBtn->Name = L"AllListBtn";
+			this->AllListBtn->Size = System::Drawing::Size(47, 22);
+			this->AllListBtn->TabIndex = 71;
+			this->AllListBtn->Text = L"Сброс";
+			this->AllListBtn->UseVisualStyleBackColor = true;
+			this->AllListBtn->Click += gcnew System::EventHandler(this, &WMainMenu::AllListBtn_Click);
+			// 
 			// WMainMenu
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Control;
 			this->ClientSize = System::Drawing::Size(898, 483);
+			this->Controls->Add(this->AllListBtn);
 			this->Controls->Add(this->MovPosterShow);
 			this->Controls->Add(this->MovAnnotShow);
 			this->Controls->Add(this->MovRatingShow);
@@ -479,7 +493,7 @@ namespace MoviesDB {
 			moviesListBox = moviesList->Find(MovNameTB->Text);
 		}
 		else if (MovGenreCB->SelectedIndex > 0) {
-			moviesListBox = moviesList->FindbyGenre(MovGenreCB->SelectedText);
+			moviesListBox = moviesList->FindbyGenre((System::String^) MovGenreCB->Items[MovGenreCB->SelectedIndex]);
 		}
 		else {
 			moviesListBox = moviesList->Find((int)MovRatingNumFrom->Value, (int)MovRatingNumTo->Value);
@@ -489,6 +503,11 @@ namespace MoviesDB {
 		for (int i = 0; i < moviesListBox->Count; i++) {
 			MovieList->Items->Add(moviesListBox[i]->Title);
 		}
+
+		MovNameTB->Text = "";
+		MovGenreCB->SelectedIndex = -1;
+		MovRatingNumFrom->Value = 0;
+		MovRatingNumTo->Value = 10;
 	}
 
 	private: System::Void MovNameTB_TextChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -553,7 +572,7 @@ namespace MoviesDB {
 			FindMovBtn->Enabled = true;
 		}
 
-		// выкл остальных полей
+		// вкл\выкл остальных полей
 		if ((int)MovRatingNumFrom->Value != 0 || (int)MovRatingNumTo->Value != 10) {
 			MovNameTB->Enabled = false;
 			MovGenreCB->Enabled = false;
@@ -567,6 +586,10 @@ namespace MoviesDB {
 			MovRatingNumFrom->Enabled = true;
 			MovRatingNumTo->Enabled = true;
 		}
+
+		// ограничение максимального значения
+		MovRatingNumFrom->Maximum = MovRatingNumTo->Value;
+		MovRatingNumTo->Minimum = MovRatingNumFrom->Value;
 	}
 
 	private: System::Void MovAddBtn_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -596,5 +619,13 @@ namespace MoviesDB {
 			MovPosterShow->Image = poster;
 		}
 	}
-	};
+	private: System::Void AllListBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		moviesListBox = moviesList->GetMovies();
+		MovieList->Items->Clear();
+		for each (Movie ^ m in moviesListBox)
+		{
+			MovieList->Items->Add(m->Title);
+		}
+	}
+};
 }
