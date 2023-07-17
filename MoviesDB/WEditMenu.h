@@ -264,10 +264,12 @@ namespace MoviesDB {
 		MovGenreCB->Text = MovForEdit->Genre;
 		MovAnnPrevTB->Text = MovForEdit->Annotation;
 		MovDatePrev->Value = MovForEdit->RealeaseDate;
+		Bitmap^ img = gcnew Bitmap(MovForEdit->PosterPath);
+		poster->Image = img;
 	}
 
 	private: System::Void MovDelBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		MovForEdit->Title == ""; // флаг для удаления фильма
+		MovForEdit->Title = ""; // флаг для удаления фильма
 		MessageBox::Show("Фильм удален"); // информирование об удалении
 		this->Close(); // закрываем окно
 	}

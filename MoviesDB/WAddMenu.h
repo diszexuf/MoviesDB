@@ -24,7 +24,6 @@ namespace MoviesDB {
 		int tmpRating;
 	private: System::Windows::Forms::ComboBox^ MovGenreCB;
 	private: System::Windows::Forms::PictureBox^ MovPoster;
-
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 	public:
 
@@ -251,6 +250,7 @@ namespace MoviesDB {
 			this->Controls->Add(this->MovNameLbl);
 			this->Name = L"WAddMenu";
 			this->Text = L"AddMovie";
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &WAddMenu::WAddMenu_FormClosing);
 			this->Load += gcnew System::EventHandler(this, &WAddMenu::WAddMenu_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNum))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->fileSystemWatcher1))->EndInit();
@@ -316,5 +316,8 @@ namespace MoviesDB {
 			MovRatingNum->Enabled = true;
 		}
 	}
-	};
+	private: System::Void WAddMenu_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
+		
+	}
+};
 }

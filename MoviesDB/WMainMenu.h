@@ -453,18 +453,19 @@ namespace MoviesDB {
 			moviesList->DeleteMovie(MovieList->SelectedIndex);
 			moviesListBox->RemoveAt(MovieList->SelectedIndex);
 			EditMenu->ShowDialog();
-			
+
 			if (WEditMenu::MovForEdit->Title->Equals("") != true) {
 				moviesList->AddMovie(WEditMenu::MovForEdit);
-				
-				moviesListBox = moviesList->GetMovies();
-				MovieList->Items->Clear();
-				for each (Movie ^ m in moviesListBox)
-				{
-					MovieList->Items->Add(m->Title);
-				}
-
 			}
+
+			moviesListBox = moviesList->GetMovies();
+			MovieList->Items->Clear();
+			for each (Movie ^ m in moviesListBox)
+			{
+				MovieList->Items->Add(m->Title);
+			}
+			MovieList->Update();
+
 		}
 	}
 
@@ -474,21 +475,20 @@ namespace MoviesDB {
 		MovRatingNumFrom->Enabled = true;
 		MovRatingNumTo->Enabled = true;
 
-		List<Movie^>^ FoundMovies;
 		if (MovNameTB->Text->Length != 0) {
-			FoundMovies = moviesList->Find(MovNameTB->Text);
+			moviesListBox = moviesList->Find(MovNameTB->Text);
 		}
 		else if (MovGenreCB->SelectedIndex > 0) {
-			FoundMovies = moviesList->FindbyGenre(MovGenreCB->SelectedText);
+			moviesListBox = moviesList->FindbyGenre(MovGenreCB->SelectedText);
 		}
 		else {
-			FoundMovies = moviesList->Find((int)MovRatingNumFrom->Value, (int)MovRatingNumTo->Value);
+			moviesListBox = moviesList->Find((int)MovRatingNumFrom->Value, (int)MovRatingNumTo->Value);
 		}
+
 		MovieList->Items->Clear();
-		for (int i = 0; i < FoundMovies->Count; i++) {
-			MovieList->Items->Add(FoundMovies[i]);
+		for (int i = 0; i < moviesListBox->Count; i++) {
+			MovieList->Items->Add(moviesListBox[i]->Title);
 		}
-		MovieList->Update();
 	}
 
 	private: System::Void MovNameTB_TextChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -572,12 +572,14 @@ namespace MoviesDB {
 	private: System::Void MovAddBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 		WAddMenu^ AddMenu = gcnew WAddMenu;
 		AddMenu->ShowDialog();
-		moviesList->AddMovie(WAddMenu::mov);
-		moviesListBox = moviesList->GetMovies();
-		MovieList->Items->Clear();
-		for each (Movie ^ m in moviesListBox)
-		{
-			MovieList->Items->Add(m->Title);
+		if (WAddMenu::mov != nullptr) {
+			moviesList->AddMovie(WAddMenu::mov);
+			moviesListBox = moviesList->GetMovies();
+			MovieList->Items->Clear();
+			for each (Movie ^ m in moviesListBox)
+			{
+				MovieList->Items->Add(m->Title);
+			}
 		}
 	}
 

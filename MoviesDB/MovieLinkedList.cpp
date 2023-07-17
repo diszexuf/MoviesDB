@@ -162,39 +162,42 @@ bool MovieLinkedList::SaveBase(String^ path)
 
 List<Movie^>^ MovieLinkedList::Find(String^ title) // Поиск по названию
 {
-	List<Movie^>^ lst; // лист для результата
+	List<Movie^>^ lst = gcnew List<Movie^>; // лист для результата
 	Movie^ current = head; // голова списка
 	while (current != nullptr) {
 		if (current->Title->ToLower()->Contains(title->ToLower()) == true) // приводим к нижнему регистру
 		{
 			lst->Add(current); // добавление совпадения
 		}
+		current = current->Next;
 	}
 	return lst;
 }
 
 List<Movie^>^ MovieLinkedList::Find(int raitingFrom, int raitingTo) // Поиск по рейтингу
 {
-	List<Movie^>^ lst; // лист для результата
+	List<Movie^>^ lst = gcnew List<Movie^>; // лист для результата
 	Movie^ current = head; // голова списка
 	while (current != nullptr) {
 		if (raitingFrom <= current->Rating && current->Rating <= raitingTo)
 		{
 			lst->Add(current); // добавление совпадения
 		}
+		current = current->Next;
 	}
 	return lst;
 }
 
 List<Movie^>^ MovieLinkedList::FindbyGenre(String^ genre) // Поиск по жанру
 {
-	List<Movie^>^ lst; // лист для результата
+	List<Movie^>^ lst = gcnew List<Movie^>; // лист для результата
 	Movie^ current = head; // голова списка
 	while (current != nullptr) {
 		if (current->Genre->Equals(genre) == true)
 		{
 			lst->Add(current); // добавление совпадения
 		}
+		current = current->Next;
 	}
 	return lst;
 }
