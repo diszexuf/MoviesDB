@@ -81,6 +81,9 @@ namespace MoviesDB {
 	private: System::Windows::Forms::TextBox^ MovDateShow;
 	private: System::Windows::Forms::TextBox^ MovRatingShow;
 	private: System::Windows::Forms::Button^ AllListBtn;
+	private: System::Windows::Forms::Button^ UnrealesMovBtn;
+
+
 
 
 	private:
@@ -122,6 +125,7 @@ namespace MoviesDB {
 			this->MovDateShow = (gcnew System::Windows::Forms::TextBox());
 			this->MovRatingShow = (gcnew System::Windows::Forms::TextBox());
 			this->AllListBtn = (gcnew System::Windows::Forms::Button());
+			this->UnrealesMovBtn = (gcnew System::Windows::Forms::Button());
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumTo))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingNumFrom))->BeginInit();
@@ -213,7 +217,7 @@ namespace MoviesDB {
 			// 
 			// ReadBDBtn
 			// 
-			this->ReadBDBtn->Location = System::Drawing::Point(6, 36);
+			this->ReadBDBtn->Location = System::Drawing::Point(6, 26);
 			this->ReadBDBtn->Name = L"ReadBDBtn";
 			this->ReadBDBtn->Size = System::Drawing::Size(220, 39);
 			this->ReadBDBtn->TabIndex = 10;
@@ -223,7 +227,7 @@ namespace MoviesDB {
 			// 
 			// SaveBDBtn
 			// 
-			this->SaveBDBtn->Location = System::Drawing::Point(6, 81);
+			this->SaveBDBtn->Location = System::Drawing::Point(6, 71);
 			this->SaveBDBtn->Name = L"SaveBDBtn";
 			this->SaveBDBtn->Size = System::Drawing::Size(220, 39);
 			this->SaveBDBtn->TabIndex = 10;
@@ -243,7 +247,7 @@ namespace MoviesDB {
 			// 
 			this->BDActionsLbl->AutoSize = true;
 			this->BDActionsLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Underline));
-			this->BDActionsLbl->Location = System::Drawing::Point(56, 13);
+			this->BDActionsLbl->Location = System::Drawing::Point(56, 3);
 			this->BDActionsLbl->Name = L"BDActionsLbl";
 			this->BDActionsLbl->Size = System::Drawing::Size(122, 20);
 			this->BDActionsLbl->TabIndex = 18;
@@ -271,6 +275,7 @@ namespace MoviesDB {
 			// 
 			this->MovRatingNumTo->Location = System::Drawing::Point(139, 150);
 			this->MovRatingNumTo->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->MovRatingNumTo->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->MovRatingNumTo->Name = L"MovRatingNumTo";
 			this->MovRatingNumTo->Size = System::Drawing::Size(44, 20);
 			this->MovRatingNumTo->TabIndex = 18;
@@ -281,9 +286,11 @@ namespace MoviesDB {
 			// 
 			this->MovRatingNumFrom->Location = System::Drawing::Point(59, 150);
 			this->MovRatingNumFrom->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->MovRatingNumFrom->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->MovRatingNumFrom->Name = L"MovRatingNumFrom";
 			this->MovRatingNumFrom->Size = System::Drawing::Size(44, 20);
 			this->MovRatingNumFrom->TabIndex = 18;
+			this->MovRatingNumFrom->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->MovRatingNumFrom->ValueChanged += gcnew System::EventHandler(this, &WMainMenu::MovRatingNum_ValueChanged);
 			// 
 			// MovGenreCB
@@ -301,7 +308,7 @@ namespace MoviesDB {
 			// 
 			// MovAddBtn
 			// 
-			this->MovAddBtn->Location = System::Drawing::Point(6, 126);
+			this->MovAddBtn->Location = System::Drawing::Point(6, 116);
 			this->MovAddBtn->Name = L"MovAddBtn";
 			this->MovAddBtn->Size = System::Drawing::Size(220, 39);
 			this->MovAddBtn->TabIndex = 10;
@@ -367,13 +374,23 @@ namespace MoviesDB {
 			// 
 			// AllListBtn
 			// 
-			this->AllListBtn->Location = System::Drawing::Point(179, 171);
+			this->AllListBtn->Location = System::Drawing::Point(179, 210);
 			this->AllListBtn->Name = L"AllListBtn";
 			this->AllListBtn->Size = System::Drawing::Size(47, 22);
 			this->AllListBtn->TabIndex = 71;
 			this->AllListBtn->Text = L"Сброс";
 			this->AllListBtn->UseVisualStyleBackColor = true;
 			this->AllListBtn->Click += gcnew System::EventHandler(this, &WMainMenu::AllListBtn_Click);
+			// 
+			// UnrealesMovBtn
+			// 
+			this->UnrealesMovBtn->Location = System::Drawing::Point(6, 161);
+			this->UnrealesMovBtn->Name = L"UnrealesMovBtn";
+			this->UnrealesMovBtn->Size = System::Drawing::Size(220, 39);
+			this->UnrealesMovBtn->TabIndex = 10;
+			this->UnrealesMovBtn->Text = L"Невышедшие фильмы";
+			this->UnrealesMovBtn->UseVisualStyleBackColor = true;
+			this->UnrealesMovBtn->Click += gcnew System::EventHandler(this, &WMainMenu::UnrealesMovBtn_Click);
 			// 
 			// WMainMenu
 			// 
@@ -391,6 +408,7 @@ namespace MoviesDB {
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->BDActionsLbl);
 			this->Controls->Add(this->MovieList);
+			this->Controls->Add(this->UnrealesMovBtn);
 			this->Controls->Add(this->MovAddBtn);
 			this->Controls->Add(this->SaveBDBtn);
 			this->Controls->Add(this->ReadBDBtn);
@@ -606,7 +624,7 @@ namespace MoviesDB {
 		}
 	}
 
-	private: System::Void MovieList_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void MovieList_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод информации о выбранном фильме
 		if (MovieList->SelectedIndex != -1) {
 			int index = MovieList->SelectedIndex;
 			Movie^ MovShow = moviesListBox[MovieList->SelectedIndex];
@@ -619,7 +637,7 @@ namespace MoviesDB {
 			MovPosterShow->Image = poster;
 		}
 	}
-	private: System::Void AllListBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void AllListBtn_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод всего списка фильмов
 		moviesListBox = moviesList->GetMovies();
 		MovieList->Items->Clear();
 		for each (Movie ^ m in moviesListBox)
@@ -627,5 +645,13 @@ namespace MoviesDB {
 			MovieList->Items->Add(m->Title);
 		}
 	}
+private: System::Void UnrealesMovBtn_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод невышедших фильмов
+	moviesListBox = moviesList->Find(0, 0); // поисск фильмов с рейтингом 0 
+	MovieList->Items->Clear();
+	for each (Movie ^ m in moviesListBox)
+	{
+		MovieList->Items->Add(m->Title);
+	}
+}
 };
 }

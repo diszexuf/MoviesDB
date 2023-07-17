@@ -98,9 +98,11 @@ namespace MoviesDB {
 			// 
 			this->MovRatingNum->Location = System::Drawing::Point(172, 105);
 			this->MovRatingNum->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->MovRatingNum->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->MovRatingNum->Name = L"MovRatingNum";
 			this->MovRatingNum->Size = System::Drawing::Size(402, 20);
 			this->MovRatingNum->TabIndex = 28;
+			this->MovRatingNum->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			// 
 			// MovNameTB
 			// 
