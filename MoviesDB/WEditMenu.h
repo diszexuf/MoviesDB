@@ -267,8 +267,14 @@ namespace MoviesDB {
 		MovAnnPrevTB->Text = MovForEdit->Annotation;
 		MovDatePrev->Value = MovForEdit->RealeaseDate;
 		MovPosterPath = MovForEdit->PosterPath;
-		Bitmap^ img = gcnew Bitmap(MovForEdit->PosterPath);
-		poster->Image = img;
+		if (System::IO::File::Exists(MovForEdit->PosterPath) == true) {
+			Bitmap^ img = gcnew Bitmap(MovForEdit->PosterPath);
+			poster->Image = img;
+		}
+		else
+		{
+			poster->Image = nullptr;
+		}
 	}
 
 	private: System::Void MovDelBtn_Click(System::Object^ sender, System::EventArgs^ e) {

@@ -16,6 +16,7 @@ namespace MoviesDB {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::IO;
 
 	/// <summary>
 	/// Summary for WMainMenu
@@ -330,6 +331,7 @@ namespace MoviesDB {
 			this->MovPosterShow->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->MovPosterShow->TabIndex = 70;
 			this->MovPosterShow->TabStop = false;
+			this->MovPosterShow->Click += gcnew System::EventHandler(this, &WMainMenu::MovPosterShow_Click);
 			// 
 			// MovAnnotShow
 			// 
@@ -388,7 +390,7 @@ namespace MoviesDB {
 			this->UnrealesMovBtn->Name = L"UnrealesMovBtn";
 			this->UnrealesMovBtn->Size = System::Drawing::Size(220, 39);
 			this->UnrealesMovBtn->TabIndex = 10;
-			this->UnrealesMovBtn->Text = L"Невышедшие фильмы";
+			this->UnrealesMovBtn->Text = L"Не вышедшие фильмы";
 			this->UnrealesMovBtn->UseVisualStyleBackColor = true;
 			this->UnrealesMovBtn->Click += gcnew System::EventHandler(this, &WMainMenu::UnrealesMovBtn_Click);
 			// 
@@ -641,8 +643,15 @@ namespace MoviesDB {
 			MovAnnotShow->Text = MovShow->Annotation;
 			MovDateShow->Text = (MovShow->RealeaseDate.ToString())->Substring(0, 11);
 			MovRatingShow->Text = MovShow->Rating.ToString();
-			Bitmap^ poster = gcnew Bitmap(MovShow->PosterPath);
-			MovPosterShow->Image = poster;
+			
+			if (System::IO::File::Exists(MovShow->PosterPath) == true) {
+				Bitmap^ poster = gcnew Bitmap(MovShow->PosterPath);
+				MovPosterShow->Image = poster;
+			}
+			else
+			{
+				MovPosterShow->Image = nullptr;
+			}
 		}
 	}
 
@@ -655,7 +664,7 @@ namespace MoviesDB {
 		}
 	}
 
-	private: System::Void UnrealesMovBtn_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод невышедших фильмов
+	private: System::Void UnrealesMovBtn_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод не вышедших фильмов
 		moviesListBox = moviesList->Find(0, 0); // поиск фильмов с рейтингом 0 
 		MovieList->Items->Clear();
 		for each (Movie ^ m in moviesListBox)
@@ -663,5 +672,7 @@ namespace MoviesDB {
 			MovieList->Items->Add(m->Title);
 		}
 	}
-	};
+	private: System::Void MovPosterShow_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+};
 }
