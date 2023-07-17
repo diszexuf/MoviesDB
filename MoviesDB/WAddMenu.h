@@ -166,7 +166,6 @@ namespace MoviesDB {
 			this->MovAnnTB->Name = L"MovAnnTB";
 			this->MovAnnTB->Size = System::Drawing::Size(402, 266);
 			this->MovAnnTB->TabIndex = 60;
-			this->MovAnnTB->TextChanged += gcnew System::EventHandler(this, &WAddMenu::MovAnnTB_TextChanged);
 			// 
 			// MovAnnotLbl
 			// 
@@ -295,8 +294,6 @@ namespace MoviesDB {
 		MovPoster->Image = defaultposter;
 	}
 
-	private: System::Void MovAnnTB_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	}
 
 	private: System::Void MovPoster_Click(System::Object^ sender, System::EventArgs^ e) {
 		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
