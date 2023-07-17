@@ -511,21 +511,29 @@ namespace MoviesDB {
 			moviesListBox = moviesList->Find(MovNameTB->Text);
 		}
 		else if (MovGenreCB->SelectedIndex > 0) {
-			moviesListBox = moviesList->FindbyGenre((System::String^) MovGenreCB->Items[MovGenreCB->SelectedIndex]);
+			moviesListBox = moviesList->FindbyGenre((System::String^)MovGenreCB->Items[MovGenreCB->SelectedIndex]);
 		}
 		else {
 			moviesListBox = moviesList->Find((int)MovRatingNumFrom->Value, (int)MovRatingNumTo->Value);
 		}
 
-		MovieList->Items->Clear();
-		for (int i = 0; i < moviesListBox->Count; i++) {
-			MovieList->Items->Add(moviesListBox[i]->Title);
+		if (moviesListBox->Count == -1) {
+			MovieList->Items->Clear();
+			for (int i = 0; i < moviesListBox->Count; i++) {
+				MovieList->Items->Add(moviesListBox[i]->Title);
+			}
 		}
+		else
+		{
+			MessageBox::Show("Фильмы по данному критерию не найдены");
+		}
+		
 
 		MovNameTB->Text = "";
 		MovGenreCB->SelectedIndex = -1;
-		MovRatingNumFrom->Value = 0;
+		MovRatingNumFrom->Value = 1;
 		MovRatingNumTo->Value = 10;
+		FindMovBtn->Enabled = false;
 	}
 
 	private: System::Void MovNameTB_TextChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -637,6 +645,7 @@ namespace MoviesDB {
 			MovPosterShow->Image = poster;
 		}
 	}
+
 	private: System::Void AllListBtn_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод всего списка фильмов
 		moviesListBox = moviesList->GetMovies();
 		MovieList->Items->Clear();
@@ -645,13 +654,14 @@ namespace MoviesDB {
 			MovieList->Items->Add(m->Title);
 		}
 	}
-private: System::Void UnrealesMovBtn_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод невышедших фильмов
-	moviesListBox = moviesList->Find(0, 0); // поисск фильмов с рейтингом 0 
-	MovieList->Items->Clear();
-	for each (Movie ^ m in moviesListBox)
-	{
-		MovieList->Items->Add(m->Title);
+
+	private: System::Void UnrealesMovBtn_Click(System::Object^ sender, System::EventArgs^ e) { // Вывод невышедших фильмов
+		moviesListBox = moviesList->Find(0, 0); // поиск фильмов с рейтингом 0 
+		MovieList->Items->Clear();
+		for each (Movie ^ m in moviesListBox)
+		{
+			MovieList->Items->Add(m->Title);
+		}
 	}
-}
-};
+	};
 }

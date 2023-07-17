@@ -51,7 +51,6 @@ void MovieLinkedList::DeleteMovie(int movIndex) // удаление фильма
 			return;
 		}
 	}
-
 	int i = 1;
 	Movie^ current = head; // голова списка
 	
@@ -59,15 +58,12 @@ void MovieLinkedList::DeleteMovie(int movIndex) // удаление фильма
 		current = current->Next;
 		i += 1;
 	}
-
 	if (current->Next == tail) { // ≈сли удал€емый элемент €вл€етс€ хвостом
 		current->Next = nullptr;
 		tail = current;
 		return;
 	}
-	
 	current->Next = current->Next->Next; // удаление элемента
-
 }
 
 void  MovieLinkedList::EditMovie(Movie^ movie, String^ _title, String^ _posterPath,  
