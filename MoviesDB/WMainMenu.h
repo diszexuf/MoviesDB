@@ -539,11 +539,6 @@ namespace MoviesDB {
 	}
 
 	private: System::Void FindMovBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки поиска
-		// возвращаем доступ к критериям поиска
-		MovNameTB->Enabled = true;
-		MovGenreCB->Enabled = true;
-		MovRatingNumFrom->Enabled = true;
-		MovRatingNumTo->Enabled = true;
 		// проверяем, по какому критерию нужно осуществить поиск и формируем список на вывод
 		if (MovNameTB->Text->Length != 0) {
 			moviesListBox = moviesList->Find(MovNameTB->Text);
@@ -565,7 +560,6 @@ namespace MoviesDB {
 		{
 			MessageBox::Show("Фильмы по данному критерию не найдены");  // Список фильмов остается тем же, что и перед поиском
 		}
-
 		// ставим начальные значения для критериев поиска и блокируем кнопку поиска
 		MovNameTB->Text = "";
 		MovGenreCB->SelectedIndex = -1;
@@ -579,6 +573,11 @@ namespace MoviesDB {
 		MovDateShow->Text = nullptr;
 		MovRatingShow->Text = nullptr;
 		MovPosterShow->Image = nullptr;
+		// возвращаем доступ к критериям поиска
+		MovNameTB->Enabled = true;
+		MovGenreCB->Enabled = true;
+		MovRatingNumFrom->Enabled = true;
+		MovRatingNumTo->Enabled = true;
 	}
 
 	private: System::Void MovNameTB_TextChanged(System::Object^ sender, System::EventArgs^ e) { // обработчик поля для названия
