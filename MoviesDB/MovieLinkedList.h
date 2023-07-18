@@ -26,5 +26,6 @@ public:
 	List<Movie^>^ Find(int raitingFrom, int raitingTo); // поиск по рейтингу
 	List<Movie^>^ FindbyGenre(System::String^ genre); // Поиск по жанру
 	List<Movie^>^ GetMovies(); // Фильмы для вывода в ListBox
+	bool IsMovExist(Movie^ mov); // проверка существования фильма в БД
 };
 

@@ -210,3 +210,14 @@ List<Movie^>^ MovieLinkedList::GetMovies() // Получение списка для вывода в lisb
 	}
 	return result;
 }
+
+bool MovieLinkedList::IsMovExist(Movie^ mov) {
+	Movie^ cur = head;
+	while (cur != nullptr) {
+		if (cur->Title->Equals(mov->Title) && cur->RealeaseDate.Equals(mov->RealeaseDate)) {
+			return true;
+		}
+		cur = cur->Next;
+	}
+	return false;
+}

@@ -22,6 +22,7 @@ namespace MoviesDB {
 		static Movie^ MovForEdit; // редактируемый фильм
 
 	private: System::Windows::Forms::PictureBox^ poster;
+	private: System::Windows::Forms::Button^ ResetBtn;
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 	public:
 		WEditMenu(Movie^ movie) // конструктор формы
@@ -70,6 +71,7 @@ namespace MoviesDB {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(WEditMenu::typeid));
 			this->MovRatingLbl = (gcnew System::Windows::Forms::Label());
 			this->MovGenreLbl = (gcnew System::Windows::Forms::Label());
 			this->MovNameLbl = (gcnew System::Windows::Forms::Label());
@@ -85,6 +87,7 @@ namespace MoviesDB {
 			this->MovGenreCB = (gcnew System::Windows::Forms::ComboBox());
 			this->poster = (gcnew System::Windows::Forms::PictureBox());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->ResetBtn = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovRatingPrevNum))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->poster))->BeginInit();
 			this->SuspendLayout();
@@ -211,7 +214,7 @@ namespace MoviesDB {
 			});
 			this->MovGenreCB->Location = System::Drawing::Point(176, 92);
 			this->MovGenreCB->Name = L"MovGenreCB";
-			this->MovGenreCB->Size = System::Drawing::Size(300, 21);
+			this->MovGenreCB->Size = System::Drawing::Size(280, 21);
 			this->MovGenreCB->TabIndex = 66;
 			this->MovGenreCB->SelectedIndexChanged += gcnew System::EventHandler(this, &WEditMenu::MovGenreCB_SelectedIndexChanged);
 			// 
@@ -230,12 +233,25 @@ namespace MoviesDB {
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
+			// ResetBtn
+			// 
+			this->ResetBtn->BackColor = System::Drawing::SystemColors::ControlDark;
+			this->ResetBtn->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ResetBtn.BackgroundImage")));
+			this->ResetBtn->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
+			this->ResetBtn->Location = System::Drawing::Point(452, 92);
+			this->ResetBtn->Name = L"ResetBtn";
+			this->ResetBtn->Size = System::Drawing::Size(24, 21);
+			this->ResetBtn->TabIndex = 68;
+			this->ResetBtn->UseVisualStyleBackColor = false;
+			this->ResetBtn->Click += gcnew System::EventHandler(this, &WEditMenu::ResetBtn_Click);
+			// 
 			// WEditMenu
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Control;
 			this->ClientSize = System::Drawing::Size(501, 498);
+			this->Controls->Add(this->ResetBtn);
 			this->Controls->Add(this->poster);
 			this->Controls->Add(this->MovGenreCB);
 			this->Controls->Add(this->MovDatePrev);
@@ -306,7 +322,7 @@ namespace MoviesDB {
 			if (MovGenreCB->Items[0] == "") { // проверка на первый выбор
 				MovGenreCB->Items[0] = MovGenreCB->Items[MovGenreCB->SelectedIndex];
 			}
-			else if (((String^)MovGenreCB->Items[MovGenreCB->SelectedIndex])->Contains((String^)MovGenreCB->Items[0]) == false) // проверка дубликатов
+			else if (!MovGenreCB->Items[0]->ToString()->Contains(MovGenreCB->Items[MovGenreCB->SelectedIndex]->ToString()))
 			{
 				MovGenreCB->Items[0] += ", " + MovGenreCB->Items[MovGenreCB->SelectedIndex];
 			}
@@ -314,5 +330,8 @@ namespace MoviesDB {
 			return;
 		}
 	}
-	};
+	private: System::Void ResetBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		MovGenreCB->Items[0] = "";
+	}
+};
 }
