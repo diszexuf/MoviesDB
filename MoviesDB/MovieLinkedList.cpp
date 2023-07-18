@@ -189,7 +189,7 @@ List<Movie^>^ MovieLinkedList::FindbyGenre(String^ genre) // Поиск по жанру
 	List<Movie^>^ lst = gcnew List<Movie^>; // лист для результата
 	Movie^ current = head; // голова списка
 	while (current != nullptr) {
-		if (current->Genre->Equals(genre) == true)
+		if (current->Genre->Contains(genre) == true)
 		{
 			lst->Add(current); // добавление совпадения
 		}

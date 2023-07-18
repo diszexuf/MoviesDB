@@ -4,8 +4,7 @@
 #include "WEditMenu.h"
 #include "WAddMenu.h"
 #include "WGreeting.h"
-
-//using namespace System;
+#include "filesystem"
 
 namespace MoviesDB {
 
@@ -48,6 +47,7 @@ namespace MoviesDB {
 		System::String^ filePath = ""; // временная переменная для пути к постеру
 		MovieLinkedList^ moviesList = gcnew MovieLinkedList(); // лист со всей БД
 		List<Movie^>^ moviesListBox = gcnew List<Movie^>; // лист на вывод в ListBox
+		static String^ dirPath = Path::GetDirectoryName(Path::GetFullPath("MoviesDB.exe"))->Replace("\\", "\\\\");
 
 	private:
 		System::Windows::Forms::ListBox^ MovieList;
@@ -416,7 +416,6 @@ namespace MoviesDB {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovPosterShow))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
-
 		}
 #pragma endregion
 
@@ -637,7 +636,7 @@ namespace MoviesDB {
 	}
 
 	private: System::Void MovAddBtn_Click(System::Object^ sender, System::EventArgs^ e) { // орбаботчик кнопки добавления
-		WAddMenu^ AddMenu = gcnew WAddMenu;
+		WAddMenu^ AddMenu = gcnew WAddMenu(WMainMenu::dirPath);
 		AddMenu->ShowDialog(); // открываем окно AddMenu
 		if (WAddMenu::mov != nullptr && moviesList->IsMovExist(WAddMenu::mov) == false) { // после добавления проверяем, чтобы данные существовали
 			moviesList->AddMovie(WAddMenu::mov); // добавляем фильм в список
