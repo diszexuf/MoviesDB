@@ -298,9 +298,18 @@ namespace MoviesDB {
 	private: System::Void WEditMenu_Load(System::Object^ sender, System::EventArgs^ e) {
 		// выставляем в поля данные о фильме для редактирования 
 		MovNamePrevTB->Text = MovForEdit->Title;
+		MovGenreCB->Items[0] = MovForEdit->Genre;
 		MovGenreCB->Text = MovForEdit->Genre;
 		MovAnnPrevTB->Text = MovForEdit->Annotation;
 		MovDatePrev->Value = MovForEdit->RealeaseDate;
+		if (MovForEdit->Rating > 0) {
+			MovRatingPrevNum->Value = MovForEdit->Rating;
+		}
+		else
+		{
+			MovRatingPrevNum->Enabled = false;
+		}
+		
 		MovPosterPath = MovForEdit->PosterPath;
 		if (System::IO::File::Exists(DirectoryPath + MovPosterPath) == true) { // проверяем существование файла, в ином случае убираем изображение
 			Bitmap^ img = gcnew Bitmap(DirectoryPath + MovPosterPath);
@@ -320,7 +329,15 @@ namespace MoviesDB {
 
 	private: System::Void MovSaveBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки сохранения
 		tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day); // формирование новой даты
-		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, (System::String^)MovGenreCB->Items[0], MovAnnPrevTB->Text, tmpDate, (int)MovRatingPrevNum->Value); // редактируем данные
+		int tmpRaiting;
+		if (MovRatingPrevNum->Enabled == false) {
+			tmpRaiting = 0; 
+		}
+		else
+		{
+			tmpRaiting = (int) MovRatingPrevNum->Value;
+		}
+		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, (System::String^)MovGenreCB->Items[0], MovAnnPrevTB->Text, tmpDate, tmpRaiting); // редактируем данные
 		MessageBox::Show("Изменения сохранены"); // информировани о сохранении (операция сохранения в главном окне)
 		this->Close(); // закрываем окно
 	}
