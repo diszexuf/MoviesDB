@@ -129,9 +129,11 @@ namespace MoviesDB {
 			// MovieList
 			// 
 			this->MovieList->FormattingEnabled = true;
-			this->MovieList->Location = System::Drawing::Point(232, 14);
+			this->MovieList->ItemHeight = 16;
+			this->MovieList->Location = System::Drawing::Point(309, 17);
+			this->MovieList->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovieList->Name = L"MovieList";
-			this->MovieList->Size = System::Drawing::Size(128, 459);
+			this->MovieList->Size = System::Drawing::Size(169, 564);
 			this->MovieList->TabIndex = 13;
 			this->MovieList->Click += gcnew System::EventHandler(this, &WMainMenu::MovieList_Click);
 			this->MovieList->MouseDoubleClick += gcnew System::Windows::Forms::MouseEventHandler(this, &WMainMenu::MovieList_MouseDoubleClick);
@@ -139,9 +141,10 @@ namespace MoviesDB {
 			// FindMovBtn
 			// 
 			this->FindMovBtn->Enabled = false;
-			this->FindMovBtn->Location = System::Drawing::Point(6, 197);
+			this->FindMovBtn->Location = System::Drawing::Point(8, 242);
+			this->FindMovBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->FindMovBtn->Name = L"FindMovBtn";
-			this->FindMovBtn->Size = System::Drawing::Size(209, 39);
+			this->FindMovBtn->Size = System::Drawing::Size(279, 48);
 			this->FindMovBtn->TabIndex = 12;
 			this->FindMovBtn->Text = L"Найти фильмы";
 			this->FindMovBtn->UseVisualStyleBackColor = true;
@@ -151,9 +154,10 @@ namespace MoviesDB {
 			// 
 			this->MovRatingTo->AutoSize = true;
 			this->MovRatingTo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
-			this->MovRatingTo->Location = System::Drawing::Point(109, 150);
+			this->MovRatingTo->Location = System::Drawing::Point(145, 185);
+			this->MovRatingTo->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->MovRatingTo->Name = L"MovRatingTo";
-			this->MovRatingTo->Size = System::Drawing::Size(24, 17);
+			this->MovRatingTo->Size = System::Drawing::Size(31, 20);
 			this->MovRatingTo->TabIndex = 6;
 			this->MovRatingTo->Text = L"до";
 			// 
@@ -161,9 +165,10 @@ namespace MoviesDB {
 			// 
 			this->MovRatingFromLbl->AutoSize = true;
 			this->MovRatingFromLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
-			this->MovRatingFromLbl->Location = System::Drawing::Point(30, 150);
+			this->MovRatingFromLbl->Location = System::Drawing::Point(40, 185);
+			this->MovRatingFromLbl->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->MovRatingFromLbl->Name = L"MovRatingFromLbl";
-			this->MovRatingFromLbl->Size = System::Drawing::Size(23, 17);
+			this->MovRatingFromLbl->Size = System::Drawing::Size(29, 20);
 			this->MovRatingFromLbl->TabIndex = 7;
 			this->MovRatingFromLbl->Text = L"от";
 			// 
@@ -172,9 +177,10 @@ namespace MoviesDB {
 			this->MovRatingLbl->AutoSize = true;
 			this->MovRatingLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Underline, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->MovRatingLbl->Location = System::Drawing::Point(78, 118);
+			this->MovRatingLbl->Location = System::Drawing::Point(104, 145);
+			this->MovRatingLbl->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->MovRatingLbl->Name = L"MovRatingLbl";
-			this->MovRatingLbl->Size = System::Drawing::Size(56, 16);
+			this->MovRatingLbl->Size = System::Drawing::Size(71, 20);
 			this->MovRatingLbl->TabIndex = 8;
 			this->MovRatingLbl->Text = L"Оценка";
 			// 
@@ -182,9 +188,10 @@ namespace MoviesDB {
 			// 
 			this->MovGenreLbl->AutoSize = true;
 			this->MovGenreLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
-			this->MovGenreLbl->Location = System::Drawing::Point(54, 84);
+			this->MovGenreLbl->Location = System::Drawing::Point(72, 103);
+			this->MovGenreLbl->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->MovGenreLbl->Name = L"MovGenreLbl";
-			this->MovGenreLbl->Size = System::Drawing::Size(49, 17);
+			this->MovGenreLbl->Size = System::Drawing::Size(58, 20);
 			this->MovGenreLbl->TabIndex = 9;
 			this->MovGenreLbl->Text = L"Жанр:";
 			// 
@@ -192,9 +199,10 @@ namespace MoviesDB {
 			// 
 			this->MovNameLbl->AutoSize = true;
 			this->MovNameLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
-			this->MovNameLbl->Location = System::Drawing::Point(27, 53);
+			this->MovNameLbl->Location = System::Drawing::Point(36, 65);
+			this->MovNameLbl->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->MovNameLbl->Name = L"MovNameLbl";
-			this->MovNameLbl->Size = System::Drawing::Size(76, 17);
+			this->MovNameLbl->Size = System::Drawing::Size(96, 20);
 			this->MovNameLbl->TabIndex = 5;
 			this->MovNameLbl->Text = L"Название:";
 			// 
@@ -203,17 +211,19 @@ namespace MoviesDB {
 			this->SearchParamsLbl->AutoSize = true;
 			this->SearchParamsLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Underline, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->SearchParamsLbl->Location = System::Drawing::Point(34, 12);
+			this->SearchParamsLbl->Location = System::Drawing::Point(45, 15);
+			this->SearchParamsLbl->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->SearchParamsLbl->Name = L"SearchParamsLbl";
-			this->SearchParamsLbl->Size = System::Drawing::Size(153, 20);
+			this->SearchParamsLbl->Size = System::Drawing::Size(190, 25);
 			this->SearchParamsLbl->TabIndex = 14;
 			this->SearchParamsLbl->Text = L"Параметры поиска";
 			// 
 			// ReadBDBtn
 			// 
-			this->ReadBDBtn->Location = System::Drawing::Point(6, 26);
+			this->ReadBDBtn->Location = System::Drawing::Point(8, 32);
+			this->ReadBDBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->ReadBDBtn->Name = L"ReadBDBtn";
-			this->ReadBDBtn->Size = System::Drawing::Size(220, 39);
+			this->ReadBDBtn->Size = System::Drawing::Size(293, 48);
 			this->ReadBDBtn->TabIndex = 10;
 			this->ReadBDBtn->Text = L"Прочитать базу фильмов";
 			this->ReadBDBtn->UseVisualStyleBackColor = true;
@@ -221,9 +231,10 @@ namespace MoviesDB {
 			// 
 			// SaveBDBtn
 			// 
-			this->SaveBDBtn->Location = System::Drawing::Point(6, 71);
+			this->SaveBDBtn->Location = System::Drawing::Point(8, 87);
+			this->SaveBDBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->SaveBDBtn->Name = L"SaveBDBtn";
-			this->SaveBDBtn->Size = System::Drawing::Size(220, 39);
+			this->SaveBDBtn->Size = System::Drawing::Size(293, 48);
 			this->SaveBDBtn->TabIndex = 10;
 			this->SaveBDBtn->Text = L"Сохранить базу фильмов";
 			this->SaveBDBtn->UseVisualStyleBackColor = true;
@@ -231,9 +242,10 @@ namespace MoviesDB {
 			// 
 			// MovNameTB
 			// 
-			this->MovNameTB->Location = System::Drawing::Point(105, 52);
+			this->MovNameTB->Location = System::Drawing::Point(140, 64);
+			this->MovNameTB->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovNameTB->Name = L"MovNameTB";
-			this->MovNameTB->Size = System::Drawing::Size(100, 20);
+			this->MovNameTB->Size = System::Drawing::Size(132, 22);
 			this->MovNameTB->TabIndex = 16;
 			this->MovNameTB->TextChanged += gcnew System::EventHandler(this, &WMainMenu::MovNameTB_TextChanged);
 			// 
@@ -241,9 +253,10 @@ namespace MoviesDB {
 			// 
 			this->BDActionsLbl->AutoSize = true;
 			this->BDActionsLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Underline));
-			this->BDActionsLbl->Location = System::Drawing::Point(56, 3);
+			this->BDActionsLbl->Location = System::Drawing::Point(75, 4);
+			this->BDActionsLbl->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->BDActionsLbl->Name = L"BDActionsLbl";
-			this->BDActionsLbl->Size = System::Drawing::Size(122, 20);
+			this->BDActionsLbl->Size = System::Drawing::Size(154, 25);
 			this->BDActionsLbl->TabIndex = 18;
 			this->BDActionsLbl->Text = L"Действия с БД";
 			// 
@@ -260,29 +273,32 @@ namespace MoviesDB {
 			this->panel1->Controls->Add(this->MovRatingFromLbl);
 			this->panel1->Controls->Add(this->MovNameTB);
 			this->panel1->Controls->Add(this->MovRatingTo);
-			this->panel1->Location = System::Drawing::Point(6, 238);
+			this->panel1->Location = System::Drawing::Point(8, 293);
+			this->panel1->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(220, 239);
+			this->panel1->Size = System::Drawing::Size(293, 294);
 			this->panel1->TabIndex = 19;
 			// 
 			// MovRatingNumTo
 			// 
-			this->MovRatingNumTo->Location = System::Drawing::Point(139, 150);
+			this->MovRatingNumTo->Location = System::Drawing::Point(185, 185);
+			this->MovRatingNumTo->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovRatingNumTo->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
 			this->MovRatingNumTo->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->MovRatingNumTo->Name = L"MovRatingNumTo";
-			this->MovRatingNumTo->Size = System::Drawing::Size(44, 20);
+			this->MovRatingNumTo->Size = System::Drawing::Size(59, 22);
 			this->MovRatingNumTo->TabIndex = 18;
 			this->MovRatingNumTo->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
 			this->MovRatingNumTo->ValueChanged += gcnew System::EventHandler(this, &WMainMenu::MovRatingNum_ValueChanged);
 			// 
 			// MovRatingNumFrom
 			// 
-			this->MovRatingNumFrom->Location = System::Drawing::Point(59, 150);
+			this->MovRatingNumFrom->Location = System::Drawing::Point(79, 185);
+			this->MovRatingNumFrom->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovRatingNumFrom->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
 			this->MovRatingNumFrom->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->MovRatingNumFrom->Name = L"MovRatingNumFrom";
-			this->MovRatingNumFrom->Size = System::Drawing::Size(44, 20);
+			this->MovRatingNumFrom->Size = System::Drawing::Size(59, 22);
 			this->MovRatingNumFrom->TabIndex = 18;
 			this->MovRatingNumFrom->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->MovRatingNumFrom->ValueChanged += gcnew System::EventHandler(this, &WMainMenu::MovRatingNum_ValueChanged);
@@ -290,21 +306,23 @@ namespace MoviesDB {
 			// MovGenreCB
 			// 
 			this->MovGenreCB->FormattingEnabled = true;
-			this->MovGenreCB->Items->AddRange(gcnew cli::array< System::Object^  >(11) {
+			this->MovGenreCB->Items->AddRange(gcnew cli::array< System::Object^  >(14) {
 				L"", L"Боевик", L"Детектив", L"Драма", L"Исторический",
-					L"Комедия", L"Мелодрама", L"Приключение", L"Трагедия", L"Триллер", L"Документальный"
+					L"Комедия", L"Мелодрама", L"Приключение", L"Трагедия", L"Триллер", L"Документальный", L"Фантастика", L"Фэнтези", L"Криминал"
 			});
-			this->MovGenreCB->Location = System::Drawing::Point(105, 84);
+			this->MovGenreCB->Location = System::Drawing::Point(140, 103);
+			this->MovGenreCB->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovGenreCB->Name = L"MovGenreCB";
-			this->MovGenreCB->Size = System::Drawing::Size(100, 21);
+			this->MovGenreCB->Size = System::Drawing::Size(132, 24);
 			this->MovGenreCB->TabIndex = 17;
 			this->MovGenreCB->SelectedIndexChanged += gcnew System::EventHandler(this, &WMainMenu::MovGenreCB_SelectedIndexChanged);
 			// 
 			// MovAddBtn
 			// 
-			this->MovAddBtn->Location = System::Drawing::Point(6, 116);
+			this->MovAddBtn->Location = System::Drawing::Point(8, 143);
+			this->MovAddBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovAddBtn->Name = L"MovAddBtn";
-			this->MovAddBtn->Size = System::Drawing::Size(220, 39);
+			this->MovAddBtn->Size = System::Drawing::Size(293, 48);
 			this->MovAddBtn->TabIndex = 10;
 			this->MovAddBtn->Text = L"Добавить фильм в базу";
 			this->MovAddBtn->UseVisualStyleBackColor = true;
@@ -318,9 +336,10 @@ namespace MoviesDB {
 			// 
 			this->MovPosterShow->BackColor = System::Drawing::SystemColors::ControlDark;
 			this->MovPosterShow->Enabled = false;
-			this->MovPosterShow->Location = System::Drawing::Point(689, 13);
+			this->MovPosterShow->Location = System::Drawing::Point(919, 16);
+			this->MovPosterShow->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovPosterShow->Name = L"MovPosterShow";
-			this->MovPosterShow->Size = System::Drawing::Size(199, 248);
+			this->MovPosterShow->Size = System::Drawing::Size(265, 305);
 			this->MovPosterShow->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->MovPosterShow->TabIndex = 70;
 			this->MovPosterShow->TabStop = false;
@@ -328,49 +347,55 @@ namespace MoviesDB {
 			// MovAnnotShow
 			// 
 			this->MovAnnotShow->Enabled = false;
-			this->MovAnnotShow->Location = System::Drawing::Point(366, 13);
+			this->MovAnnotShow->Location = System::Drawing::Point(488, 16);
+			this->MovAnnotShow->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovAnnotShow->Multiline = true;
 			this->MovAnnotShow->Name = L"MovAnnotShow";
-			this->MovAnnotShow->Size = System::Drawing::Size(314, 461);
+			this->MovAnnotShow->Size = System::Drawing::Size(417, 566);
 			this->MovAnnotShow->TabIndex = 67;
 			// 
 			// MovNameShow
 			// 
 			this->MovNameShow->Enabled = false;
-			this->MovNameShow->Location = System::Drawing::Point(689, 286);
+			this->MovNameShow->Location = System::Drawing::Point(919, 352);
+			this->MovNameShow->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovNameShow->Name = L"MovNameShow";
-			this->MovNameShow->Size = System::Drawing::Size(199, 20);
+			this->MovNameShow->Size = System::Drawing::Size(264, 22);
 			this->MovNameShow->TabIndex = 65;
 			// 
 			// MovGenreShow
 			// 
 			this->MovGenreShow->Enabled = false;
-			this->MovGenreShow->Location = System::Drawing::Point(689, 312);
+			this->MovGenreShow->Location = System::Drawing::Point(919, 384);
+			this->MovGenreShow->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovGenreShow->Name = L"MovGenreShow";
-			this->MovGenreShow->Size = System::Drawing::Size(199, 20);
+			this->MovGenreShow->Size = System::Drawing::Size(264, 22);
 			this->MovGenreShow->TabIndex = 65;
 			// 
 			// MovDateShow
 			// 
 			this->MovDateShow->Enabled = false;
-			this->MovDateShow->Location = System::Drawing::Point(689, 338);
+			this->MovDateShow->Location = System::Drawing::Point(919, 416);
+			this->MovDateShow->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovDateShow->Name = L"MovDateShow";
-			this->MovDateShow->Size = System::Drawing::Size(199, 20);
+			this->MovDateShow->Size = System::Drawing::Size(264, 22);
 			this->MovDateShow->TabIndex = 65;
 			// 
 			// MovRatingShow
 			// 
 			this->MovRatingShow->Enabled = false;
-			this->MovRatingShow->Location = System::Drawing::Point(689, 364);
+			this->MovRatingShow->Location = System::Drawing::Point(919, 448);
+			this->MovRatingShow->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->MovRatingShow->Name = L"MovRatingShow";
-			this->MovRatingShow->Size = System::Drawing::Size(199, 20);
+			this->MovRatingShow->Size = System::Drawing::Size(264, 22);
 			this->MovRatingShow->TabIndex = 65;
 			// 
 			// AllListBtn
 			// 
-			this->AllListBtn->Location = System::Drawing::Point(179, 210);
+			this->AllListBtn->Location = System::Drawing::Point(239, 258);
+			this->AllListBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->AllListBtn->Name = L"AllListBtn";
-			this->AllListBtn->Size = System::Drawing::Size(47, 22);
+			this->AllListBtn->Size = System::Drawing::Size(63, 27);
 			this->AllListBtn->TabIndex = 71;
 			this->AllListBtn->Text = L"Сброс";
 			this->AllListBtn->UseVisualStyleBackColor = true;
@@ -378,9 +403,10 @@ namespace MoviesDB {
 			// 
 			// UnrealesMovBtn
 			// 
-			this->UnrealesMovBtn->Location = System::Drawing::Point(6, 161);
+			this->UnrealesMovBtn->Location = System::Drawing::Point(8, 198);
+			this->UnrealesMovBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->UnrealesMovBtn->Name = L"UnrealesMovBtn";
-			this->UnrealesMovBtn->Size = System::Drawing::Size(220, 39);
+			this->UnrealesMovBtn->Size = System::Drawing::Size(293, 48);
 			this->UnrealesMovBtn->TabIndex = 10;
 			this->UnrealesMovBtn->Text = L"Не вышедшие фильмы";
 			this->UnrealesMovBtn->UseVisualStyleBackColor = true;
@@ -388,10 +414,10 @@ namespace MoviesDB {
 			// 
 			// WMainMenu
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Control;
-			this->ClientSize = System::Drawing::Size(898, 483);
+			this->ClientSize = System::Drawing::Size(1197, 594);
 			this->Controls->Add(this->AllListBtn);
 			this->Controls->Add(this->MovPosterShow);
 			this->Controls->Add(this->MovAnnotShow);
@@ -406,6 +432,7 @@ namespace MoviesDB {
 			this->Controls->Add(this->MovAddBtn);
 			this->Controls->Add(this->SaveBDBtn);
 			this->Controls->Add(this->ReadBDBtn);
+			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->Name = L"WMainMenu";
 			this->Text = L"MoviesDB";
 			this->Load += gcnew System::EventHandler(this, &WMainMenu::WMainMenu_Load);
@@ -416,6 +443,7 @@ namespace MoviesDB {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->MovPosterShow))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
+
 		}
 #pragma endregion
 
