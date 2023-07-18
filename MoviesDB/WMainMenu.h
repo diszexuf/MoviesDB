@@ -510,7 +510,7 @@ namespace MoviesDB {
 
 	private: System::Void MovieList_MouseDoubleClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) { // обработчик двойного клика на элемент списка
 		if (MovieList->SelectedIndex != -1) { // проверяем, чтобы двойной клик не был осуществлен по пустому пространству
-			WEditMenu^ EditMenu = gcnew WEditMenu(moviesListBox[MovieList->SelectedIndex]); // передаем в EditMenu элемент базы
+			WEditMenu^ EditMenu = gcnew WEditMenu(moviesListBox[MovieList->SelectedIndex], dirPath); // передаем в EditMenu элемент базы
 			moviesList->DeleteMovie(MovieList->SelectedIndex); // удаляем элемент из бд
 			moviesListBox->RemoveAt(MovieList->SelectedIndex); // удаляем элемент из списка на вывод
 			EditMenu->ShowDialog(); // вызываем EditMenu
@@ -693,8 +693,8 @@ namespace MoviesDB {
 			MovDateShow->Text = (MovShow->RealeaseDate.ToString())->Substring(0, 11); // срез, чтобы осталась только дата
 			MovRatingShow->Text = MovShow->Rating.ToString();
 
-			if (System::IO::File::Exists(MovShow->PosterPath) == true) { // проверка существования файла
-				Bitmap^ poster = gcnew Bitmap(MovShow->PosterPath);
+			if (System::IO::File::Exists(dirPath + MovShow->PosterPath) == true) { // проверка существования файла
+				Bitmap^ poster = gcnew Bitmap(dirPath + MovShow->PosterPath);
 				MovPosterShow->Image = poster; // вывод постера
 			}
 			else

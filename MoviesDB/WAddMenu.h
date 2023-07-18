@@ -27,14 +27,14 @@ namespace MoviesDB {
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 	private: System::Windows::Forms::Button^ ResetBtn;
 
-	public:
+	public: System::String^ DirectoryPath;
 
 	public:
 		DateTime tmpDate; // временная переменная для формирования даты
 	public:
 		WAddMenu(String^ directoryPath)
 		{
-			tmpPosterPath = directoryPath;
+			DirectoryPath = directoryPath;
 			InitializeComponent();
 		}
 
@@ -323,8 +323,8 @@ namespace MoviesDB {
 	}
 
 	private: System::Void WAddMenu_Load(System::Object^ sender, System::EventArgs^ e) { // загрузчик окна
-		tmpPosterPath += "\\default.png";
-		Bitmap^ defaultposter = gcnew Bitmap(tmpPosterPath);
+		tmpPosterPath = "\\default.png";
+		Bitmap^ defaultposter = gcnew Bitmap(DirectoryPath + tmpPosterPath);
 		MovPoster->Image = defaultposter; // ставим вместо постера default изображение, чтобы в случае отсутствия постера ставилось оно
 	}
 
@@ -332,8 +332,8 @@ namespace MoviesDB {
 		OpenFileDialog^ PosterPathDialog = gcnew OpenFileDialog();
 		PosterPathDialog->Filter = "image files (*.png)|*.png"; // проверка расширения файла
 		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) { // в случае успеха считываем путь
-			tmpPosterPath = PosterPathDialog->FileName; // считываем путь
-			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName);
+			tmpPosterPath = "\\" + PosterPathDialog->SafeFileName;
+			Bitmap^ imageFile = gcnew Bitmap(DirectoryPath + tmpPosterPath);
 			MovPoster->Image = imageFile; // устанавливаем изображение в PictureBox
 		}
 	}

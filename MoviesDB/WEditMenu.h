@@ -20,15 +20,17 @@ namespace MoviesDB {
 		DateTime tmpDate; // временная переменная для формирования даты
 		System::String^ MovPosterPath; // временная переменная для пути к постеру
 		static Movie^ MovForEdit; // редактируемый фильм
+		System::String^ DirectoryPath;
 
 	private: System::Windows::Forms::PictureBox^ poster;
 	private: System::Windows::Forms::Button^ ResetBtn;
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 	public:
-		WEditMenu(Movie^ movie) // конструктор формы
+		WEditMenu(Movie^ movie, String^ directoryPath) // конструктор формы
 		{
 			InitializeComponent();
 			MovForEdit = movie; // принимаем переданный фильм во временную переменную
+			DirectoryPath = directoryPath;
 		}
 
 	protected:
@@ -300,8 +302,8 @@ namespace MoviesDB {
 		MovAnnPrevTB->Text = MovForEdit->Annotation;
 		MovDatePrev->Value = MovForEdit->RealeaseDate;
 		MovPosterPath = MovForEdit->PosterPath;
-		if (System::IO::File::Exists(MovForEdit->PosterPath) == true) { // проверяем существование файла, в ином случае убираем изображение
-			Bitmap^ img = gcnew Bitmap(MovForEdit->PosterPath);
+		if (System::IO::File::Exists(DirectoryPath + MovPosterPath) == true) { // проверяем существование файла, в ином случае убираем изображение
+			Bitmap^ img = gcnew Bitmap(DirectoryPath + MovPosterPath);
 			poster->Image = img;
 		}
 		else
@@ -328,8 +330,8 @@ namespace MoviesDB {
 		PosterPathDialog->Filter = "image files (*.png)|*.png"; // проверка расширения
 		// считываем и устанавливаем новое изображение
 		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-			MovPosterPath = PosterPathDialog->FileName;
-			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName);
+			MovPosterPath = "\\" + PosterPathDialog->SafeFileName;
+			Bitmap^ imageFile = gcnew Bitmap(DirectoryPath + MovPosterPath);
 			poster->Image = imageFile;
 		}
 	}
