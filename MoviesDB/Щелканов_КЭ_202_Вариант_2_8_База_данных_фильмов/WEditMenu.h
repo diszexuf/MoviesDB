@@ -20,7 +20,7 @@ namespace MoviesDB {
 		DateTime tmpDate; // временная переменная для формирования даты
 		System::String^ MovPosterPath; // временная переменная для пути к постеру
 		static Movie^ MovForEdit; // редактируемый фильм
-
+	
 	private: System::Windows::Forms::PictureBox^ poster;
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 	public:
@@ -213,7 +213,6 @@ namespace MoviesDB {
 			this->MovGenreCB->Name = L"MovGenreCB";
 			this->MovGenreCB->Size = System::Drawing::Size(300, 21);
 			this->MovGenreCB->TabIndex = 66;
-			this->MovGenreCB->SelectedIndexChanged += gcnew System::EventHandler(this, &WEditMenu::MovGenreCB_SelectedIndexChanged);
 			// 
 			// poster
 			// 
@@ -286,7 +285,7 @@ namespace MoviesDB {
 
 	private: System::Void MovSaveBtn_Click(System::Object^ sender, System::EventArgs^ e) { // обработчик кнопки сохранения
 		tmpDate = DateTime(MovDatePrev->Value.Year, MovDatePrev->Value.Month, MovDatePrev->Value.Day); // формирование новой даты
-		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, (System::String^)MovGenreCB->Items[0], MovAnnPrevTB->Text, tmpDate, (int)MovRatingPrevNum->Value); // редактируем данные
+		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, (System::String^) MovGenreCB->Items[MovGenreCB->SelectedIndex], MovAnnPrevTB->Text, tmpDate, (int)MovRatingPrevNum->Value); // редактируем данные
 		MessageBox::Show("Изменения сохранены"); // информировани о сохранении (операция сохранения в главном окне)
 		this->Close(); // закрываем окно
 	}
@@ -296,23 +295,10 @@ namespace MoviesDB {
 		PosterPathDialog->Filter = "image files (*.png)|*.png"; // проверка расширения
 		// считываем и устанавливаем новое изображение
 		if (PosterPathDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-			MovPosterPath = PosterPathDialog->FileName;
+			MovPosterPath = PosterPathDialog->FileName; 
 			Bitmap^ imageFile = gcnew Bitmap(PosterPathDialog->FileName);
-			poster->Image = imageFile;
+			poster->Image = imageFile; 
 		}
 	}
-	private: System::Void MovGenreCB_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-		if (MovGenreCB->SelectedIndex > 0) { // проверка, что выбранный элемент не нулевой
-			if (MovGenreCB->Items[0] == "") { // проверка на первый выбор
-				MovGenreCB->Items[0] = MovGenreCB->Items[MovGenreCB->SelectedIndex];
-			}
-			else if (((String^)MovGenreCB->Items[MovGenreCB->SelectedIndex])->Contains((String^)MovGenreCB->Items[0]) == false) // проверка дубликатов
-			{
-				MovGenreCB->Items[0] += ", " + MovGenreCB->Items[MovGenreCB->SelectedIndex];
-			}
-			MovGenreCB->SelectedIndex = 0; // выбор 0-го элемента для показа выбранных жанров
-			return;
-		}
-	}
-	};
+};
 }

@@ -18,7 +18,7 @@ namespace MoviesDB {
 	{
 	public:
 		String^ tmpTitle;
-		String^ tmpGenre = "";
+		String^ tmpGenre;
 		String^ tmpPosterPath = "F:\\pngs\\default.png";
 		String^ tmpAnnotation;
 		int tmpRating;
@@ -206,8 +206,8 @@ namespace MoviesDB {
 			// MovGenreCB
 			// 
 			this->MovGenreCB->FormattingEnabled = true;
-			this->MovGenreCB->Items->AddRange(gcnew cli::array< System::Object^  >(11) {
-				L"", L"Боевик", L"Детектив", L"Драма", L"Исторический",
+			this->MovGenreCB->Items->AddRange(gcnew cli::array< System::Object^  >(10) {
+				L"Боевик", L"Детектив", L"Драма", L"Исторический",
 					L"Комедия", L"Мелодрама", L"Приключение", L"Трагедия", L"Триллер", L"Документальный"
 			});
 			this->MovGenreCB->Location = System::Drawing::Point(172, 78);
@@ -215,7 +215,6 @@ namespace MoviesDB {
 			this->MovGenreCB->Size = System::Drawing::Size(402, 21);
 			this->MovGenreCB->TabIndex = 63;
 			this->MovGenreCB->Text = L"Выберите жанр";
-			this->MovGenreCB->SelectedIndexChanged += gcnew System::EventHandler(this, &WAddMenu::MovGenreCB_SelectedIndexChanged);
 			// 
 			// MovPoster
 			// 
@@ -272,7 +271,7 @@ namespace MoviesDB {
 		}
 		// сбор данных
 		tmpTitle = MovNameTB->Text;
-		tmpGenre = (System::String^)MovGenreCB->Items[0];
+		tmpGenre = (System::String^)MovGenreCB->Items[MovGenreCB->SelectedIndex];
 		tmpAnnotation = MovAnnTB->Text;
 		if (MovRatingNum->Enabled == true) { // если фильм не вышел, то ставим рейтинг 0
 			tmpRating = (int)MovRatingNum->Value;
@@ -315,19 +314,5 @@ namespace MoviesDB {
 		}
 	}
 
-	private: System::Void MovGenreCB_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-		if (MovGenreCB->SelectedIndex > 0) { // проверка, что выбранный элемент не нулевой
-			if (MovGenreCB->Items[0] == "") { // проверка на первый выбор
-				MovGenreCB->Items[0] = MovGenreCB->Items[MovGenreCB->SelectedIndex];
-			}
-			else if (((String^)MovGenreCB->Items[MovGenreCB->SelectedIndex])->Contains( (String^) MovGenreCB->Items[0]) == false) // проверка дубликатов
-			{
-				MessageBox::Show((String^)MovGenreCB->Items[0] + "\n" + MovGenreCB->Items[0]->ToString());
-				MovGenreCB->Items[0] += ", " + MovGenreCB->Items[MovGenreCB->SelectedIndex];
-			}
-			MovGenreCB->SelectedIndex = 0; // выбор 0-го элемента для показа выбранных жанров
-			return;
-		}
-	}
-};
+	};
 }

@@ -109,7 +109,7 @@ bool MovieLinkedList::ReadBase(String^ path)
 
 	while (str = reader->ReadLine()) // пока в файле остались непрочитанные строки
 	{
-		row = str->Split('|');
+		row = str->Split(',');
 		tempTitle = row[0];
 		tempGenre = row[1];
 		tempPosterPath = row[2];
@@ -140,13 +140,13 @@ bool MovieLinkedList::SaveBase(String^ path)
 	Movie^ node = head; // голова списка для записи
 	while (node != nullptr)
 	{
-		writer->Write(node->Title + "|");
-		writer->Write(node->Genre + "|");
-		writer->Write(node->PosterPath + "|");
-		writer->Write(node->Annotation + "|");
-		writer->Write(node->Rating + "|");
-		writer->Write(node->RealeaseDate.Year + "|");
-		writer->Write(node->RealeaseDate.Month + "|");
+		writer->Write(node->Title + ",");
+		writer->Write(node->Genre + ",");
+		writer->Write(node->PosterPath + ",");
+		writer->Write(node->Annotation + ",");
+		writer->Write(node->Rating + ",");
+		writer->Write(node->RealeaseDate.Year + ",");
+		writer->Write(node->RealeaseDate.Month + ",");
 		writer->Write(node->RealeaseDate.Day + "\n");
 
 		node = node->Next; // переход к след узлу списка
