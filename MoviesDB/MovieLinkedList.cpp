@@ -99,26 +99,32 @@ bool MovieLinkedList::ReadBase(String^ path)
 	// временные переменные полей
 	String^ str;
 	cli::array<System::String^>^ row;
-	String^ tempTitle; 
+	String^ tempTitle;
 	String^ tempGenre;
-	DateTime tempRealeaseDate; 
+	DateTime tempRealeaseDate;
 	String^ tempPosterPath;
 	String^ tempAnnotation;
 	int tempRating;
-
-
-	while (str = reader->ReadLine()) // пока в файле остались непрочитанные строки
+	try
 	{
-		row = str->Split('|');
-		tempTitle = row[0];
-		tempGenre = row[1];
-		tempPosterPath = row[2];
-		tempAnnotation = row[3];
-		tempRating = Convert::ToInt32(row[4]);
-		tempRealeaseDate = DateTime(Convert::ToInt32(row[5]), Convert::ToInt32(row[6]), Convert::ToInt32(row[7]));
-		this->AddMovie(gcnew Movie(tempTitle, tempPosterPath, tempGenre, tempAnnotation, tempRealeaseDate, tempRating));
+		while (str = reader->ReadLine()) // пока в файле остались непрочитанные строки
+		{
+			row = str->Split('|');
+			tempTitle = row[0];
+			tempGenre = row[1];
+			tempPosterPath = row[2];
+			tempAnnotation = row[3];
+			tempRating = Convert::ToInt32(row[4]);
+			tempRealeaseDate = DateTime(Convert::ToInt32(row[5]), Convert::ToInt32(row[6]), Convert::ToInt32(row[7]));
+			this->AddMovie(gcnew Movie(tempTitle, tempPosterPath, tempGenre, tempAnnotation, tempRealeaseDate, tempRating));
+		}
+		reader->Close(); // закрывем поток
 	}
-	reader->Close(); // закрывем поток
+	catch (System::IndexOutOfRangeException^ exc)
+	{
+		reader->Close();
+		return false;
+	}
 	return true; // успешное завершение
 }
 

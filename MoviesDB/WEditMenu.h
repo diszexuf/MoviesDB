@@ -337,7 +337,7 @@ namespace MoviesDB {
 		{
 			tmpRaiting = (int) MovRatingPrevNum->Value;
 		}
-		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, (System::String^)MovGenreCB->Items[0], MovAnnPrevTB->Text, tmpDate, tmpRaiting); // редактируем данные
+		MovForEdit = gcnew Movie(MovNamePrevTB->Text, MovPosterPath, (System::String^)MovGenreCB->Items[0], MovAnnPrevTB->Text->Replace("\n", ""), tmpDate, tmpRaiting); // редактируем данные
 		MessageBox::Show("Изменения сохранены"); // информировани о сохранении (операция сохранения в главном окне)
 		this->Close(); // закрываем окно
 	}
